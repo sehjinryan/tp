@@ -21,7 +21,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
- * Parses input arguments and creates a new AddCommand object
+ * AddCommandPaser class implements the Parser interface
  */
 public class AddCommandParser implements Parser<AddCommand> {
 

@@ -22,6 +22,12 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.milestone.AssignmentId;
+import seedu.address.model.milestone.CompletedAt;
+import seedu.address.model.milestone.MilestoneRecord;
+import seedu.address.model.milestone.MilestoneStatus;
+import seedu.address.model.milestone.StudentId;
+import seedu.address.model.milestone.StudentMilestones;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -94,6 +100,34 @@ public class AddCommandTest {
         }
 
         @Override
+        public StudentMilestones getMilestones(StudentId studentId) {
+            // AddCommand does not use milestones; return empty for test compilation.
+            return new StudentMilestones();
+        }
+
+        @Override
+        public void setMilestone(StudentId studentId, AssignmentId assignmentId,
+                                 MilestoneStatus status, CompletedAt completedAt) {
+            // AddCommand does not use milestones; no-op for tests.
+        }
+
+        @Override
+        public MilestoneRecord getMilestone(StudentId studentId, AssignmentId assignmentId) {
+            // AddCommand does not use milestones; return empty.
+            return null;
+        }
+
+        @Override
+        public void removeAllMilestonesForStudent(StudentId studentId) {
+            // no-op for tests
+        }
+
+        @Override
+        public void removeAllMilestonesForAssignment(AssignmentId assignmentId) {
+            // no-op for tests
+        }
+
+        @Override
         public ReadOnlyUserPrefs getUserPrefs() {
             throw new AssertionError("This method should not be called.");
         }
@@ -146,6 +180,12 @@ public class AddCommandTest {
         @Override
         public void setPerson(Person target, Person editedPerson) {
             throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public StudentId getNextStudentId() {
+            // Provide a stub implementation as appropriate for your test
+            return new StudentId("S1");
         }
 
         @Override
