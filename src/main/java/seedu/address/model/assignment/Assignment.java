@@ -1,8 +1,10 @@
 package seedu.address.model.assignment;
 
+import java.util.Objects;
+
 import seedu.address.commons.util.ToStringBuilder;
 
-import java.util.Objects;
+
 
 /**
  * Represents an Assignment in LeTutor

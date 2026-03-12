@@ -1,10 +1,12 @@
 package seedu.address.model.assignment;
 
+import static seedu.address.commons.util.AppUtil.checkArgument;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import static seedu.address.commons.util.AppUtil.checkArgument;
+
 
 /**
  * Represents the due date for an Assignment

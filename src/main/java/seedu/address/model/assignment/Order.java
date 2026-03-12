@@ -2,12 +2,22 @@ package seedu.address.model.assignment;
 
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+/**
+ * Represents the order for an Assignment
+ * Guarantees: immutable; is valid as declared in {@link #isValidOrder(int)}
+ */
 public class Order {
 
-    public static final String MESSAGE_CONSTRAINTS = "Order can take any integer between 0-999, and it should not be blank";
+    public static final String MESSAGE_CONSTRAINTS = "Order can take any integer between 0-999,"
+            + " and it should not be blank";
 
     public final int order;
 
+    /**
+     * Constructs a {@code Order}.
+     *
+     * @params order A valid order.
+     */
     public Order(int order) {
         checkArgument(isValidOrder(order), MESSAGE_CONSTRAINTS);
         this.order = order;
