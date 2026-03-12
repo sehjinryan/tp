@@ -10,6 +10,14 @@ public final class FlatMilestoneEntry {
     private final AssignmentId assignmentId;
     private final MilestoneRecord milestoneRecord;
 
+    /**
+     * Constructs a {@code FlatMilestoneEntry} with the specified identifiers and milestone record.
+     *
+     * @param studentId The identifier of the student associated with this milestone entry.
+     * @param assignmentId The identifier of the assignment associated with this milestone entry.
+     * @param milestoneRecord The milestone record containing the status and completion data.
+     * @throws NullPointerException if any argument is null.
+     */
     public FlatMilestoneEntry(StudentId studentId, AssignmentId assignmentId, MilestoneRecord milestoneRecord) {
         requireNonNull(studentId);
         requireNonNull(assignmentId);
@@ -20,18 +28,41 @@ public final class FlatMilestoneEntry {
         this.milestoneRecord = milestoneRecord;
     }
 
+    /**
+     * Returns the student identifier associated with this milestone entry.
+     *
+     * @return The {@code StudentId} of the student.
+     */
     public StudentId getStudentId() {
         return studentId;
     }
 
+    /**
+     * Returns the assignment identifier associated with this milestone entry.
+     *
+     * @return The {@code AssignmentId} of the assignment.
+     */
     public AssignmentId getAssignmentId() {
         return assignmentId;
     }
 
+    /**
+     * Returns the milestone record stored in this entry.
+     *
+     * @return The {@code MilestoneRecord} containing milestone status information.
+     */
     public MilestoneRecord getMilestoneRecord() {
         return milestoneRecord;
     }
 
+    /**
+     * Returns true if the specified object is equal to this milestone entry.
+     * Two {@code FlatMilestoneEntry} objects are considered equal if their
+     * student identifiers, assignment identifiers, and milestone records are equal.
+     *
+     * @param other The object to compare with.
+     * @return True if the objects represent the same milestone entry.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -46,6 +77,13 @@ public final class FlatMilestoneEntry {
                 && milestoneRecord.equals(otherEntry.milestoneRecord);
     }
 
+    /**
+     * Returns the hash code for this milestone entry.
+     * The hash code is computed based on the student identifier,
+     * assignment identifier, and milestone record.
+     *
+     * @return The hash code value.
+     */
     @Override
     public int hashCode() {
         int result = studentId.hashCode();
@@ -54,6 +92,12 @@ public final class FlatMilestoneEntry {
         return result;
     }
 
+    /**
+     * Returns the string representation of this milestone entry.
+     *
+     * @return A string containing the student id, assignment id,
+     * and milestone record information.
+     */
     @Override
     public String toString() {
         return "FlatMilestoneEntry{studentId=" + studentId

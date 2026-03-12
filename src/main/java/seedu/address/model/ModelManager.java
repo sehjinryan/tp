@@ -11,11 +11,11 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.milestone.StudentId;
 import seedu.address.model.milestone.AssignmentId;
 import seedu.address.model.milestone.CompletedAt;
 import seedu.address.model.milestone.MilestoneRecord;
 import seedu.address.model.milestone.MilestoneStatus;
-import seedu.address.model.milestone.StudentId;
 import seedu.address.model.milestone.StudentMilestones;
 import seedu.address.model.person.Person;
 
@@ -118,10 +118,6 @@ public class ModelManager implements Model {
 
     //=========== Filtered Person List Accessors =============================================================
 
-    /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
-     */
     @Override
     public ObservableList<Person> getFilteredPersonList() {
         return filteredPersons;
@@ -170,12 +166,45 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public StudentId getNextStudentId() {
+        int max = 0;
+        for (Person p : addressBook.getPersonList()) {
+            String raw = p.getStudentId().getValue(); // e.g. "S12"
+            int parsed = parseStudentIdNumber(raw);
+            if (parsed > max) {
+                max = parsed;
+            }
+        }
+        return new StudentId("S" + (max + 1));
+    }
+
+    private int parseStudentIdNumber(String raw) {
+        if (raw == null) {
+            return 0;
+        }
+        String s = raw.trim();
+        if (s.length() < 2 || s.charAt(0) != 'S') {
+            return 0;
+        }
+        String numberPart = s.substring(1);
+        for (int i = 0; i < numberPart.length(); i++) {
+            if (!Character.isDigit(numberPart.charAt(i))) {
+                return 0;
+            }
+        }
+        try {
+            return Integer.parseInt(numberPart);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof ModelManager)) {
             return false;
         }
