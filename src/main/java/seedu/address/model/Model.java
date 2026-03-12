@@ -118,4 +118,9 @@ public interface Model {
      * Returns the milestone record for the given student-assignment pair, or null if absent.
      */
     MilestoneRecord getMilestone(StudentId studentId, AssignmentId assignmentId);
+
+    /**
+     * Generates the next available StudentId in the form S1, S2, S3... based on existing persons.
+     */
+    StudentId getNextStudentId();
 }
