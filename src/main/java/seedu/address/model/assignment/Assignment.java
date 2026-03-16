@@ -66,6 +66,19 @@ public class Assignment {
                 && dueDate.equals(otherAssignment.dueDate);
     }
 
+    /**
+     * Returns true if both Assignments have the same label and group.
+     * This defines a weaker notion of equality between two Assignments.
+     */
+    public boolean isSameAssignment(Assignment otherAssignment) {
+        if (otherAssignment == this) {
+            return true;
+        }
+        return otherAssignment != null
+                && otherAssignment.getLabel().equals(getLabel())
+                && otherAssignment.getGroup().equals(getGroup());
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(assignmentId, label, group, dueDate);

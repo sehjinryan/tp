@@ -7,10 +7,12 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.assignment.exceptions.AssignmentNotFoundException;
+import seedu.address.model.assignment.exceptions.DuplicateAssignmentException;
 
 /**
- * A list of assignments that enforces uniqueness between its elements.
- * An assignment is considered a duplicate if it has the same AssignmentId.
+ * A list of assignments that enforces uniqueness between its elements and does not allow nulls.
+ * An assignment is considered unique by comparing using {@code Assignment#isSameAssignment(Assignment)}.
  */
 public class UniqueAssignmentList implements Iterable<Assignment> {
 
@@ -23,7 +25,7 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
      */
     public boolean contains(Assignment toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream().anyMatch(a -> isSameAssignmentId(a, toCheck));
+        return internalList.stream().anyMatch(toCheck::isSameAssignment);
     }
 
     /**
@@ -39,58 +41,21 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
     }
 
     /**
-     * Replaces the assignment {@code target} in the list with {@code editedAssignment}.
-     * {@code target} must exist in the list.
-     * The assignment id of {@code editedAssignment} must not be the same as another existing assignment in the list.
-     */
-    public void setAssignment(Assignment target, Assignment editedAssignment) {
-        requireNonNull(target);
-        requireNonNull(editedAssignment);
-
-        int index = internalList.indexOf(target);
-        if (index == -1) {
-            throw new AssignmentNotFoundException();
-        }
-
-        // if changing to an AssignmentId that already exists elsewhere, reject
-        boolean isDuplicateId =
-                internalList.stream()
-                        .anyMatch(a -> a != target && isSameAssignmentId(a, editedAssignment));
-
-        if (isDuplicateId) {
-            throw new DuplicateAssignmentException();
-        }
-
-        internalList.set(index, editedAssignment);
-    }
-
-    /**
      * Removes the equivalent assignment from the list.
      * The assignment must exist in the list.
      */
     public void remove(Assignment toRemove) {
         requireNonNull(toRemove);
-        boolean removed = internalList.remove(toRemove);
-        if (!removed) {
+        if (!internalList.remove(toRemove)) {
             throw new AssignmentNotFoundException();
         }
     }
 
-    /**
-     * Replaces the contents of this list with {@code assignments}.
-     * {@code assignments} must not contain duplicate assignments (by AssignmentId).
-     */
     public void setAssignments(List<Assignment> assignments) {
         requireNonNull(assignments);
-        if (!assignmentsAreUnique(assignments)) {
-            throw new DuplicateAssignmentException();
-        }
         internalList.setAll(assignments);
     }
 
-    /**
-     * Returns the backing list as an unmodifiable {@code ObservableList}.
-     */
     public ObservableList<Assignment> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
     }
@@ -100,37 +65,21 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
         return internalList.iterator();
     }
 
-    private boolean assignmentsAreUnique(List<Assignment> assignments) {
-        for (int i = 0; i < assignments.size() - 1; i++) {
-            for (int j = i + 1; j < assignments.size(); j++) {
-                if (isSameAssignmentId(assignments.get(i), assignments.get(j))) {
-                    return false;
-                }
-            }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
         }
-        return true;
+        if (!(other instanceof UniqueAssignmentList)) {
+            return false;
+        }
+        UniqueAssignmentList otherList = (UniqueAssignmentList) other;
+        return internalList.equals(otherList.internalList);
     }
 
-    private boolean isSameAssignmentId(Assignment a1, Assignment a2) {
-        // Requires Assignment#getAssignmentId() to exist.
-        return a1.getAssignmentId().equals(a2.getAssignmentId());
-    }
-
-    /**
-     * Signals that the operation would result in duplicate Assignments (same AssignmentId).
-     */
-    public static class DuplicateAssignmentException extends RuntimeException {
-        public DuplicateAssignmentException() {
-            super("Operation would result in duplicate assignments");
-        }
-    }
-
-    /**
-     * Signals that the assignment could not be found in the list.
-     */
-    public static class AssignmentNotFoundException extends RuntimeException {
-        public AssignmentNotFoundException() {
-            super("Assignment not found");
-        }
+    @Override
+    public int hashCode() {
+        return internalList.hashCode();
     }
 }
