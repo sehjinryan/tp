@@ -3,44 +3,52 @@ package seedu.address.model.assignment;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Value object representing an assignment identifier.
+ * Represents an Assignment's ID (e.g., A301).
+ * Guarantees: immutable; is valid as declared in {@link #isValidAssignmentId(String)}.
  */
-public final class AssignmentId {
-    public static final String MESSAGE_CONSTRAINTS = "AssignmentId cannot be blank.";
+public class AssignmentId {
+
+    public static final String MESSAGE_CONSTRAINTS =
+            "AssignmentId must be in the format A followed by 1 to 4 digits (e.g., A1, A301, A9999).";
+
+    // A + 1 to 4 digits
+    private static final String VALIDATION_REGEX = "A\\d{1,4}";
 
     private final String value;
 
     /**
-     * Constructs an {@code AssignmentId} with the given value.
+     * Constructs an {@code AssignmentId}.
      *
-     * @param value The assignment identifier string.
-     * @throws NullPointerException if {@code value} is null.
-     * @throws IllegalArgumentException if the trimmed value is blank.
+     * @param value A valid assignment id.
      */
     public AssignmentId(String value) {
         requireNonNull(value);
-        String trimmedValue = value.trim();
-        if (trimmedValue.isEmpty()) {
+        String trimmed = value.trim();
+        if (!isValidAssignmentId(trimmed)) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }
-        this.value = trimmedValue;
+        this.value = trimmed;
     }
 
-    /**
-     * Returns the string value of this assignment identifier.
-     *
-     * @return The assignment identifier as a string.
-     */
     public String getValue() {
         return value;
     }
 
     /**
-     * Returns true if the given object is equal to this assignment identifier.
-     *
-     * @param other The object to compare against.
-     * @return True if {@code other} is an {@code AssignmentId} with the same value.
+     * Returns true if a given string is a valid assignment id.
      */
+    public static boolean isValidAssignmentId(String test) {
+        if (test == null) {
+            return false;
+        }
+        return test.trim().matches(VALIDATION_REGEX);
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -49,27 +57,12 @@ public final class AssignmentId {
         if (!(other instanceof AssignmentId)) {
             return false;
         }
-        AssignmentId otherAssignmentId = (AssignmentId) other;
-        return value.equals(otherAssignmentId.value);
+        AssignmentId otherId = (AssignmentId) other;
+        return value.equals(otherId.value);
     }
 
-    /**
-     * Returns the hash code of this assignment identifier.
-     *
-     * @return The hash code based on the identifier value.
-     */
     @Override
     public int hashCode() {
         return value.hashCode();
-    }
-
-    /**
-     * Returns the string representation of this assignment identifier.
-     *
-     * @return The assignment identifier value.
-     */
-    @Override
-    public String toString() {
-        return value;
     }
 }

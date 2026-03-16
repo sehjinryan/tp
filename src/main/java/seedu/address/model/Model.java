@@ -2,9 +2,11 @@ package seedu.address.model;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
+import java.util.Optional;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.milestone.CompletedAt;
 import seedu.address.model.milestone.MilestoneRecord;
@@ -123,4 +125,14 @@ public interface Model {
      * Generates the next available StudentId in the form S1, S2, S3... based on existing persons.
      */
     StudentId getNextStudentId();
+
+    boolean hasAssignment(Assignment assignment);
+
+    void addAssignment(Assignment assignment);
+
+    ObservableList<Assignment> getAssignmentList();
+
+    Optional<Assignment> getAssignmentById(AssignmentId assignmentId);
+
+    AssignmentId getNextAssignmentId();
 }
