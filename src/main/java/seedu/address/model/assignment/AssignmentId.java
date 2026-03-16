@@ -1,4 +1,4 @@
-package seedu.address.model.milestone;
+package seedu.address.model.assignment;
 
 import static java.util.Objects.requireNonNull;
 
