@@ -10,12 +10,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.milestone.StudentId;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.GroupId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.StudentId;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -29,6 +30,7 @@ class JsonAdaptedPerson {
     private final String name;
     private final String phone;
     private final String email;
+    private final String groupId;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
@@ -40,12 +42,14 @@ class JsonAdaptedPerson {
                              @JsonProperty("name") String name,
                              @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email,
+                             @JsonProperty("groupId") String groupId,
                              @JsonProperty("address") String address,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.studentId = studentId;
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.groupId = groupId;
         this.address = address;
         if (tags != null) {
             this.tags.addAll(tags);
@@ -60,6 +64,7 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
+        groupId = source.getGroupId().getValue();
         address = source.getAddress().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -117,7 +122,16 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
+        final GroupId modelGroupId;
+        if (groupId == null) {
+            modelGroupId = new GroupId("G0");
+        } else if (!GroupId.isValidGroupId(groupId)) {
+            throw new IllegalValueException(GroupId.MESSAGE_CONSTRAINTS);
+        } else {
+            modelGroupId = new GroupId(groupId);
+        }
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelStudentId, modelName, modelPhone, modelEmail, modelAddress, modelTags);
+        return new Person(modelStudentId, modelName, modelPhone, modelEmail, modelGroupId, modelAddress, modelTags);
     }
 }

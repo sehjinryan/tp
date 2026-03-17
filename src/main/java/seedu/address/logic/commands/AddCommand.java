@@ -11,8 +11,8 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.milestone.StudentId;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentId;
 
 /**
  * Adds a person to the address book.
@@ -63,6 +63,7 @@ public class AddCommand extends Command {
                 toAdd.getName(),
                 toAdd.getPhone(),
                 toAdd.getEmail(),
+                toAdd.getGroupId(),
                 toAdd.getAddress(),
                 toAdd.getTags()
         );

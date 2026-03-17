@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.milestone.StudentId;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -22,6 +21,7 @@ public class Person {
     private final Name name;
     private final Phone phone;
     private final Email email;
+    private final GroupId groupId;
 
     // Data fields
     private final Address address;
@@ -30,12 +30,14 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(StudentId studentId, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(studentId, name, phone, email, address, tags);
+    public Person(StudentId studentId, Name name, Phone phone, Email email,
+            GroupId groupId, Address address, Set<Tag> tags) {
+        requireAllNonNull(studentId, name, phone, email, groupId, address, tags);
         this.studentId = studentId;
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.groupId = groupId;
         this.address = address;
         this.tags.addAll(tags);
     }
@@ -54,6 +56,10 @@ public class Person {
 
     public Email getEmail() {
         return email;
+    }
+
+    public GroupId getGroupId() {
+        return groupId;
     }
 
     public Address getAddress() {
@@ -101,6 +107,7 @@ public class Person {
                 && name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
+                && groupId.equals(otherPerson.groupId)
                 && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags);
     }
@@ -108,7 +115,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(studentId, name, phone, email, address, tags);
+        return Objects.hash(studentId, name, phone, email, groupId, address, tags);
     }
 
     @Override
@@ -118,6 +125,7 @@ public class Person {
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
+                .add("groupId", groupId)
                 .add("address", address)
                 .add("tags", tags)
                 .toString();

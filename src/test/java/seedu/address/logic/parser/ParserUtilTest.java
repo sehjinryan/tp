@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.GroupId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -25,12 +26,14 @@ public class ParserUtilTest {
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
+    private static final String INVALID_GROUP_ID = " ";
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
+    private static final String VALID_GROUP_ID = "G1";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
 
@@ -146,6 +149,29 @@ public class ParserUtilTest {
         String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
         Email expectedEmail = new Email(VALID_EMAIL);
         assertEquals(expectedEmail, ParserUtil.parseEmail(emailWithWhitespace));
+    }
+
+    @Test
+    public void parseGroupId_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseGroupId((String) null));
+    }
+
+    @Test
+    public void parseGroupId_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseGroupId(INVALID_GROUP_ID));
+    }
+
+    @Test
+    public void parseGroupId_validValueWithoutWhitespace_returnsGroupId() throws Exception {
+        GroupId expectedGroupId = new GroupId(VALID_GROUP_ID);
+        assertEquals(expectedGroupId, ParserUtil.parseGroupId(VALID_GROUP_ID));
+    }
+
+    @Test
+    public void parseGroupId_validValueWithWhitespace_returnsTrimmedGroupId() throws Exception {
+        String groupIdWithWhitespace = WHITESPACE + VALID_GROUP_ID + WHITESPACE;
+        GroupId expectedGroupId = new GroupId(VALID_GROUP_ID);
+        assertEquals(expectedGroupId, ParserUtil.parseGroupId(groupIdWithWhitespace));
     }
 
     @Test
