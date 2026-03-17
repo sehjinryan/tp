@@ -33,6 +33,9 @@ public class GetAssignmentCommand extends Command {
             throw new CommandException(String.format(MESSAGE_NOT_FOUND, assignmentId));
         }
 
+        // Update the filtered list so the UI can show only this assignment
+        model.updateFilteredAssignmentList(a -> a.getAssignmentId().equals(assignmentId));
+
         Assignment a = maybe.get();
         String message = "Assignment details:\n"
                 + "ID: " + a.getAssignmentId() + "\n"

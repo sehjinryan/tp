@@ -16,12 +16,14 @@ import seedu.address.model.assignment.Label;
  * Parses input arguments and creates a new AddAssignmentCommand object.
  *
  * Expected format:
- * adda {<label>, <group>, <dueDate>}
+ * add /assignment {<label>, <group>, <dueDate>}
  *
  * Example:
- * adda {A-JUnit, Sec3A, 2026-02-20}
+ * add /assignment {A-JUnit, Sec3A, 2026-02-20}
  */
 public class AddAssignmentCommandParser implements Parser<AddAssignmentCommand> {
+
+    private static final String PATH_ASSIGNMENT = "/assignment";
 
     @Override
     public AddAssignmentCommand parse(String args) throws ParseException {
@@ -32,15 +34,18 @@ public class AddAssignmentCommandParser implements Parser<AddAssignmentCommand> 
                     AddAssignmentCommand.MESSAGE_USAGE));
         }
 
-        List<String> parts = parseTuple3(trimmed);
+        // Must start with "/assignment"
+        if (!trimmed.startsWith(PATH_ASSIGNMENT)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddAssignmentCommand.MESSAGE_USAGE));
+        }
 
-        String labelStr = parts.get(0);
-        String groupStr = parts.get(1);
-        String dueDateStr = parts.get(2);
+        String remainder = trimmed.substring(PATH_ASSIGNMENT.length()).trim();
+        List<String> parts = parseTuple3(remainder);
 
-        Label label = ParserUtil.parseLabel(labelStr);
-        String group = ParserUtil.parseGroup(groupStr);
-        DueDate dueDate = ParserUtil.parseDueDate(dueDateStr);
+        Label label = ParserUtil.parseLabel(parts.get(0));
+        String group = ParserUtil.parseGroup(parts.get(1));
+        DueDate dueDate = ParserUtil.parseDueDate(parts.get(2));
 
         // placeholder ID, real ID assigned in AddAssignmentCommand.execute()
         Assignment assignment = new Assignment(new AssignmentId("A0"), label, group, dueDate);
@@ -61,8 +66,7 @@ public class AddAssignmentCommandParser implements Parser<AddAssignmentCommand> 
                     AddAssignmentCommand.MESSAGE_USAGE));
         }
 
-        // Split by commas, trim each field
-        String[] tokens = inside.split(",", -1); // keep empty tokens if user writes ", ,"
+        String[] tokens = inside.split(",", -1);
         if (tokens.length != 3) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AddAssignmentCommand.MESSAGE_USAGE));
@@ -73,7 +77,6 @@ public class AddAssignmentCommandParser implements Parser<AddAssignmentCommand> 
             out.add(t.trim());
         }
 
-        // Basic check: label and dueDate must not be empty
         if (out.get(0).isEmpty() || out.get(2).isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AddAssignmentCommand.MESSAGE_USAGE));
