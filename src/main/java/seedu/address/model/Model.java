@@ -2,11 +2,12 @@ package seedu.address.model;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
+import java.util.Optional;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.assignment.Assignment;
-import seedu.address.model.milestone.AssignmentId;
+import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.milestone.CompletedAt;
 import seedu.address.model.milestone.MilestoneRecord;
 import seedu.address.model.milestone.MilestoneStatus;
@@ -20,6 +21,7 @@ import seedu.address.model.person.StudentId;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+    Predicate<Assignment> PREDICATE_SHOW_ALL_ASSIGNMENTS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -86,11 +88,20 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
+    /** Returns an unmodifiable view of the filtered Assignment list */
+    ObservableList<Assignment> getFilteredAssignmentList();
+
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Updates the filter of the filtered assignment list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredAssignmentList(Predicate<Assignment> predicate);
 
     // =========================== Feature 2: Milestones ===========================
 
@@ -125,9 +136,15 @@ public interface Model {
      */
     StudentId getNextStudentId();
 
-    /** Returns true if an assignment with the same identity exists in the assignment library. */
     boolean hasAssignment(Assignment assignment);
 
-    /** Adds the given assignment to the assignment library. */
     void addAssignment(Assignment assignment);
+
+    ObservableList<Assignment> getAssignmentList();
+
+    Optional<Assignment> getAssignmentById(AssignmentId assignmentId);
+
+    AssignmentId getNextAssignmentId();
+
+    void updateFilteredIndexList(Person personToGet);
 }

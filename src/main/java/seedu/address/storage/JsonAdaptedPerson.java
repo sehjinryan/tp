@@ -1,23 +1,15 @@
 package seedu.address.storage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Address;
+import seedu.address.model.milestone.StudentId;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.GroupId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.StudentId;
-import seedu.address.model.tag.Tag;
 
 /**
  * Jackson-friendly version of {@link Person}.
@@ -30,9 +22,7 @@ class JsonAdaptedPerson {
     private final String name;
     private final String phone;
     private final String email;
-    private final String groupId;
-    private final String address;
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final String group;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -42,18 +32,12 @@ class JsonAdaptedPerson {
                              @JsonProperty("name") String name,
                              @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email,
-                             @JsonProperty("groupId") String groupId,
-                             @JsonProperty("address") String address,
-                             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                             @JsonProperty("group") String group) {
         this.studentId = studentId;
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.groupId = groupId;
-        this.address = address;
-        if (tags != null) {
-            this.tags.addAll(tags);
-        }
+        this.group = group;
     }
 
     /**
@@ -64,11 +48,7 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
-        groupId = source.getGroupId().getValue();
-        address = source.getAddress().value;
-        tags.addAll(source.getTags().stream()
-                .map(JsonAdaptedTag::new)
-                .collect(Collectors.toList()));
+        group = source.getGroup();
     }
 
     /**
@@ -77,10 +57,6 @@ class JsonAdaptedPerson {
      * @throws IllegalValueException if there were any data constraints violated in the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
-        final List<Tag> personTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tags) {
-            personTags.add(tag.toModelType());
-        }
 
         // StudentId: allow older JSON without studentId by falling back to "S0"
         final StudentId modelStudentId;
@@ -113,25 +89,9 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
         }
         final Email modelEmail = new Email(email);
-
-        if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+        if (group == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
         }
-        if (!Address.isValidAddress(address)) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
-        }
-        final Address modelAddress = new Address(address);
-
-        final GroupId modelGroupId;
-        if (groupId == null) {
-            modelGroupId = new GroupId("G0");
-        } else if (!GroupId.isValidGroupId(groupId)) {
-            throw new IllegalValueException(GroupId.MESSAGE_CONSTRAINTS);
-        } else {
-            modelGroupId = new GroupId(groupId);
-        }
-
-        final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelStudentId, modelName, modelPhone, modelEmail, modelGroupId, modelAddress, modelTags);
+        return new Person(modelStudentId, modelName, modelPhone, modelEmail, group);
     }
 }

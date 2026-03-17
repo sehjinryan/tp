@@ -63,9 +63,7 @@ public class AddCommand extends Command {
                 toAdd.getName(),
                 toAdd.getPhone(),
                 toAdd.getEmail(),
-                toAdd.getGroupId(),
-                toAdd.getAddress(),
-                toAdd.getTags()
+                toAdd.getGroup()
         );
 
         model.addPerson(personWithId);

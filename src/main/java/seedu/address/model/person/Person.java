@@ -2,13 +2,10 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.milestone.StudentId;
 
 /**
  * Represents a Person in the address book.
@@ -21,25 +18,18 @@ public class Person {
     private final Name name;
     private final Phone phone;
     private final Email email;
-    private final GroupId groupId;
-
-    // Data fields
-    private final Address address;
-    private final Set<Tag> tags = new HashSet<>();
+    private final String group;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(StudentId studentId, Name name, Phone phone, Email email,
-            GroupId groupId, Address address, Set<Tag> tags) {
-        requireAllNonNull(studentId, name, phone, email, groupId, address, tags);
+    public Person(StudentId studentId, Name name, Phone phone, Email email, String group) {
+        requireAllNonNull(studentId, name, phone, email);
         this.studentId = studentId;
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.groupId = groupId;
-        this.address = address;
-        this.tags.addAll(tags);
+        this.group = group;
     }
 
     public StudentId getStudentId() {
@@ -57,23 +47,9 @@ public class Person {
     public Email getEmail() {
         return email;
     }
-
-    public GroupId getGroupId() {
-        return groupId;
+    public String getGroup() {
+        return group;
     }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
-    }
-
     /**
      * Returns true if both persons have the same name.
      * This defines a weaker notion of equality between two persons.
@@ -107,15 +83,13 @@ public class Person {
                 && name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && groupId.equals(otherPerson.groupId)
-                && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && group.equals(otherPerson.group);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(studentId, name, phone, email, groupId, address, tags);
+        return Objects.hash(studentId, name, phone, email, group);
     }
 
     @Override
@@ -125,10 +99,7 @@ public class Person {
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
-                .add("groupId", groupId)
-                .add("address", address)
-                .add("tags", tags)
+                .add("group", group)
                 .toString();
     }
-
 }
