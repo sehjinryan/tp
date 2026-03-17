@@ -12,12 +12,12 @@ import seedu.address.model.assignment.AssignmentId;
  */
 public class AddAssignmentCommand extends Command {
 
-    public static final String COMMAND_WORD = "adda";
+    public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Adds an assignment to the assignment library.\n"
-            + "Format: " + COMMAND_WORD + " {<label>, <group>, <dueDate>}\n"
-            + "Example: " + COMMAND_WORD + " {A-JUnit, Sec3A, 2026-02-20}";
+            + " /assignment: Adds an assignment to the assignment library.\n"
+            + "Format: add /assignment {<label>, <group>, <dueDate>}\n"
+            + "Example: add /assignment {A-JUnit, Sec3A, 2026-02-20}";
 
     public static final String MESSAGE_SUCCESS = "New assignment added: %1$s";
     public static final String MESSAGE_DUPLICATE_ASSIGNMENT =

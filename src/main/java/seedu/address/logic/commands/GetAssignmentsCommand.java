@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.assignment.Assignment;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ASSIGNMENTS;
 
 public class GetAssignmentsCommand extends Command {
 
@@ -20,7 +21,9 @@ public class GetAssignmentsCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        ObservableList<Assignment> assignments = model.getAssignmentList();
+        model.updateFilteredAssignmentList(PREDICATE_SHOW_ALL_ASSIGNMENTS);
+
+        ObservableList<Assignment> assignments = model.getFilteredAssignmentList();
         if (assignments.isEmpty()) {
             return new CommandResult(MESSAGE_NO_ASSIGNMENTS);
         }
