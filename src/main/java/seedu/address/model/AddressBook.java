@@ -97,6 +97,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         assignmentBook.addAssignment(assignment);
     }
 
+    public void deleteAssignment(Assignment assignment) {
+        requireNonNull(assignment);
+        assignmentBook.removeAssignment(assignment);
+    }
+
     // ==================== util ====================
 
 

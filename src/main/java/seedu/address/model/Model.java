@@ -140,6 +140,8 @@ public interface Model {
 
     void addAssignment(Assignment assignment);
 
+    void deleteAssignment(Assignment assignment);
+
     ObservableList<Assignment> getAssignmentList();
 
     Optional<Assignment> getAssignmentById(AssignmentId assignmentId);
