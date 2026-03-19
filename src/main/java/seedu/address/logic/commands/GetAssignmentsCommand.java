@@ -42,17 +42,6 @@ public class GetAssignmentsCommand extends Command {
         StringBuilder sb = new StringBuilder();
         sb.append(MESSAGE_LIST_HEADER);
 
-        for (Assignment a : assignments) {
-            sb.append("\n")
-                    .append(a.getAssignmentId())
-                    .append(" | ")
-                    .append(a.getLabel())
-                    .append(" | group=")
-                    .append(a.getGroup())
-                    .append(" | due=")
-                    .append(a.getDueDate());
-        }
-
-        return new CommandResult(sb.toString());
+        return new CommandResult("Now displaying all assignments");
     }
 }

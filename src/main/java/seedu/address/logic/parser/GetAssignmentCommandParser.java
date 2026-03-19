@@ -46,7 +46,7 @@ public class GetAssignmentCommandParser implements Parser<Command> {
 
         } else {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    GetStudentCommand.MESSAGE_USAGE));
+                    GetAssignmentsCommand.MESSAGE_USAGE));
         }
 
         throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, GetAssignmentsCommand.MESSAGE_USAGE));
