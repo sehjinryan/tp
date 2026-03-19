@@ -4,9 +4,9 @@
   pageNav: 3
 ---
 
-# AB-3 User Guide
+# LeTutor User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+LeTutor is a **desktop app for managing students and assignments, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your student and assignment management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -18,24 +18,24 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+1. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103T-T08-4/tp/releases/tag/v1.3).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar letutor.jar` command to run the application.<br>
+   A GUI similar to the below should appear in a few seconds.<br>
+   ![Ui](images/mvpUi.png)
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+   * `list` : Lists all students
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add /students {John Doe; 98765432; johnd@example.com; Sec3A}`: Adds a student named `John Doe` to the Address Book.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+   * `delete /students 3` : Deletes the 3rd students shown in the current list.
 
-   * `clear` : Deletes all contacts.
+   * `clear` : Deletes all students and assignments.
 
    * `exit` : Exits the app.
 
@@ -65,6 +65,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+
 </box>
 
 ### Viewing help : `help`
@@ -75,50 +76,63 @@ Shows a message explaining how to access the help page.
 
 Format: `help`
 
+### Adding a student: `add /students`
 
-### Adding a person: `add`
+Adds a student to the address book.
 
-Adds a person to the address book.
+Format: `add /students {<name>; <phone>; <email>; <group>}`
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Example: `add /students {John Doe; 98765432; johnd@example.com; Sec3A}`
 
-<box type="tip" seamless>
+### Adding an assignment: `add /assignments`
 
-**Tip:** A person can have any number of tags (including 0)
-</box>
+Adds an assignment to the address book.
 
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+Format: `add /assignments {<label>; <group>; <dueDate>}`
 
-### Listing all persons : `list`
+* The `dueDate` should be in the format `YYYY-MM-DD`. e.g. `2026-03-20` for 20 March 2026.
 
-Shows a list of all persons in the address book.
+Example: `add /assignments {Math; Sec3A; 2026-03-20}`
+
+### Listing all students : `list`
+
+Shows a list of all students in the address book.
 
 Format: `list`
 
-### Editing a person : `edit`
+### Listing all assignments: `get /assignments`
 
-Edits an existing person in the address book.
+Shows a list of all assignments in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `get /assignments`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+### Viewing details of a student: `get /students`
 
-Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+Shows the details of a student in the address book.
 
-### Locating persons by name: `find`
+Format: `get /students <studentId>`
 
-Finds persons whose names contain any of the given keywords.
+* Shows the details of the student with the specified `studentId`.
+* The `studentId` is the unique identifier of a student, which is automatically generated when a student is added to the address book. It is a **positive integer** that increments by 1 for each new student added. The first student added will have a `studentId` of 1, the second student will have a `studentId` of 2, and so on.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Example: `get /students 3`
+
+### View details of an assignment: `get /assignments`
+
+Shows the details of an assignment in the address book.
+
+Format: `get /assignments <assignmentId>`
+
+* Shows the details of the assignment with the specified `assignmentId`.
+* The `assignmentId` is the unique identifier of an assignment, which is automatically generated when an assignment is added to the address book. It is a **positive integer** that increments by 1 for each new assignment added. The first assignment added will have an `assignmentId` of 1, the second assignment will have an `assignmentId` of 2, and so on.
+
+Example: `get /assignments 2`
+
+### Locating students by name: `find /students`
+
+Finds students whose names contain any of the given keywords.
+
+Format: `find /students <keywords>`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
@@ -128,27 +142,44 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find /students John` returns `john` and `John Doe`
+* `find /students alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-### Deleting a person : `delete`
+### Editing a student: `edit /students`
 
-Deletes the specified person from the address book.
+Edits the details of a student in the address book.
 
-Format: `delete INDEX`
+Format: `edit /students <studentId> {<name>; <phone>; <email>; <group>}`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Edits the person at the specified `studentId`
+* All fields must be provided when editing a student, and the fields will be updated to the input values. For example, if you only want to update the phone number of a student, you will need to provide the existing values for the other fields (name, email and group) as well.
 
-Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+Example: `edit /students 1 {John Doe; 98765432; johnd@mail.com; Sec3B}`
+
+### Deleting a student : `delete /students`
+
+Deletes the specified student from the address book.
+
+Format: `delete /students <studentId>`
+
+* Deletes the student at the specified `studentId`.
+
+Example: `delete /students 3`
+
+### Deleting an assignment : `delete /assignments`
+
+Deletes the specified assignment from the address book.
+
+Format: `delete /assignments <assignmentId>`
+
+* Deletes the assignment at the specified `assignmentId`.
+
+Example: `delete /assignments 2`
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all student and assignment entries from the address book.
 
 Format: `clear`
 
@@ -171,11 +202,8 @@ AddressBook data are saved automatically as a JSON file `[JAR file location]/dat
 **Caution:**
 If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+
 </box>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -195,12 +223,17 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action     | Format, Examples
------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+Action     | Format, Examples                                                                                                              
+-----------|-------------------------------------------------------------------------------------------------------------------------------
+**Add Student**  | `add /students {<name>; <phone>; <email>; <group>}` <br> e.g., `add /students {John Doe; 98765432; johnd@example.com; Sec3A}`
+**Add Assignment**  | `add /assignments {<label>; <group>; <dueDate>}` <br> e.g., `add /assignments {Math; Sec3A; 2026-03-20}`
+**List All Students**   | `list`
+**List All Assignments**   | `get /assignments`
+**Get Student**  | `get /students <studentId>` <br> e.g., `get /students 3`
+**Get Assignment**  | `get /assignments <assignmentId>` <br> e.g., `get /assignments 2`
+**Find Student**  | `find /students <keywords>` <br> e.g., `find /students alex david`
+**Edit Student**  | `edit /students <studentId> {<name>; <phone>; <email>; <group>}` <br> e.g., `edit /students 1 {John Doe; 98765432; johnd@mail.com; Sec3B}`
+**Delete Student**  | `delete /students <studentId>` <br> e.g., `delete /students 3`
+**Delete Assignment** | `delete /assignments <assignmentId>` <br> e.g `delete /assignments 2`
 **Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List**   | `list`
 **Help**   | `help`
