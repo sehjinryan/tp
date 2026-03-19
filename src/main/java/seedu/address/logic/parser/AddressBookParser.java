@@ -76,7 +76,7 @@ public class AddressBookParser {
 
         case GetAssignmentCommandParser.COMMAND_WORD:
             if (arguments.trim().startsWith("/assignments")) {
-                return new AddAssignmentCommandParser().parse(arguments);
+                return new GetAssignmentCommandParser().parse(arguments);
             }
             return new GetStudentCommandParser().parse(arguments);
 
