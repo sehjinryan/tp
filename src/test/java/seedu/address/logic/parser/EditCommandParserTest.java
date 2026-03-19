@@ -25,31 +25,31 @@ public class EditCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
 
         // no index specified
-        assertParseFailure(parser, "edit /students {Bob; 22222222; bob@example.com; G1}", expectedMessage);
+        assertParseFailure(parser, "/students {Bob; 22222222; bob@example.com; G1}", expectedMessage);
 
         //        // no field specified (just index)
         //        assertParseFailure(parser, "edit /students 1", EditCommand.MESSAGE_USAGE);
 
         // no index and no field specified
-        assertParseFailure(parser, "edit /students", expectedMessage);
+        assertParseFailure(parser, "/students", expectedMessage);
     }
 
     @Test
     public void parse_invalidPreamble_failure() {
+        String expectedIndexMessage = ParserUtil.MESSAGE_INVALID_INDEX;
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
 
         // negative index
-        assertParseFailure(parser, "edit /students -5 {Bob; 22222222; bob@example.com; G1}", expectedMessage);
+        assertParseFailure(parser, "/students -5 {Bob; 22222222; bob@example.com; G1}",
+                expectedIndexMessage);
 
         // zero index
-        assertParseFailure(parser, "edit /students 0 {Bob; 22222222; bob@example.com; G1}", expectedMessage);
+        assertParseFailure(parser, "/students 0 {Bob; 22222222; bob@example.com; G1}",
+                expectedIndexMessage);
 
         // invalid arguments being parsed as preamble
-        assertParseFailure(parser, "edit /students 1 some random {Bob; 22222222; bob@example.com; G1}",
+        assertParseFailure(parser, "/students 1 some random {Bob; 22222222; bob@example.com; G1}",
                 expectedMessage);
-
-        // wrong command prefix
-        assertParseFailure(parser, "add /students 1 {Bob; 22222222; bob@example.com; G1}", expectedMessage);
     }
 
     @Test
@@ -105,11 +105,11 @@ public class EditCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
 
         // Multiple complete edit commands
-        assertParseFailure(parser, "edit /students 1 {Bob; 22222222; bob@example.com; G1} "
+        assertParseFailure(parser, "/students 1 {Bob; 22222222; bob@example.com; G1} "
                 + "edit /students 2 {Amy; 98765432; amy@example.com; G2}", expectedMessage);
 
         // Malformed repeated braces
-        assertParseFailure(parser, "edit /students 1 {Bob; 22222222; bob@example.com; G1} "
+        assertParseFailure(parser, "/students 1 {Bob; 22222222; bob@example.com; G1} "
                 + "{Amy; 98765432; amy@example.com; G2}", expectedMessage);
     }
 
