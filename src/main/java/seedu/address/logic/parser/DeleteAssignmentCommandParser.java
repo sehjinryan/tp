@@ -6,10 +6,21 @@ import seedu.address.logic.commands.DeleteAssignmentCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.assignment.AssignmentId;
 
+/**
+ * Parses input arguments and creates a new DeleteAssignmentCommand object.
+ */
 public class DeleteAssignmentCommandParser implements Parser<DeleteAssignmentCommand> {
 
     private static final String PATH_ASSIGNMENTS = "/assignment";
 
+    /**
+     * Parses user input and creates a {@code DeleteAssignmentCommand}.
+     *
+     * @param args full argument string supplied after the {@code delete} command word.
+     * @return a {@code DeleteAssignmentCommand} containing the parsed assignment id.
+     * @throws ParseException if the input does not match {@code /assignment <assignmentId>} or
+     *         the assignment id is invalid.
+     */
     @Override
     public DeleteAssignmentCommand parse(String args) throws ParseException {
         String trimmed = args.trim();

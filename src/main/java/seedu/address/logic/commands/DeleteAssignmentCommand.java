@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
 import java.util.Optional;
 
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -11,7 +10,7 @@ import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
 
 /**
- * Deletes a person identified using it's displayed index from the address book.
+ * Deletes an assignment from the assignment library.
  */
 public class DeleteAssignmentCommand extends Command {
 
@@ -28,11 +27,24 @@ public class DeleteAssignmentCommand extends Command {
 
     private final AssignmentId assignmentId;
 
+
+    /**
+     * Creates a {@code DeleteAssignmentCommand} to delete the assignment with the given id.
+     *
+     * @param assignmentId id of the assignment to delete.
+     */
     public DeleteAssignmentCommand(AssignmentId assignmentId) {
         requireNonNull(assignmentId);
         this.assignmentId = assignmentId;
     }
 
+    /**
+     * Deletes the assignment identified by this command's {@code assignmentId}.
+     *
+     * @param model {@code Model} which the command should operate on.
+     * @return a {@code CommandResult} containing the success message.
+     * @throws CommandException if no assignment with the given id exists.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
