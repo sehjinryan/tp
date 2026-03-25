@@ -90,7 +90,7 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String groupId} into a {@code GroupId}.
+     * Parses a {@code String groupId} into a {@code GroupName}.
      * Leading and trailing whitespaces will be trimmed.
      *
      * @throws ParseException if the given {@code groupId} is invalid.

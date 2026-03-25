@@ -12,18 +12,29 @@ import seedu.address.model.person.StudentId;
  * Object representing the group that a student belongs to.
  */
 public class Group {
-    private final GroupId groupId;
+    private final GroupName name;
     private final StudentList studentIds;
 
     /**
      * Constructs an {@code Group} with the given value.
      *
-     * @param id The assignment identifier string.
-     * @throws NullPointerException if {@code id} is null.
+     * @param name The assignment identifier string.
+     * @throws NullPointerException if {@code name} is null.
      */
-    public Group(int id) {
-        this.groupId = new GroupId(id);
+    public Group(String name) {
+        this.name= new GroupName(name);
         this.studentIds = new StudentList();
+    }
+
+    /**
+     * Constructs an {@code Group} with the given value.
+     *
+     * @param name The assignment identifier string.
+     * @throws NullPointerException if {@code name} is null.
+     */
+    public Group(GroupName name, StudentList students) {
+        this.name = name;
+        this.studentIds = students;
     }
 
     /**
@@ -31,8 +42,8 @@ public class Group {
      *
      * @return The Group identifier as a Integer.
      */
-    public int getGroupId() {
-        return this.groupId.getGroupId();
+    public String getGroupName() {
+        return this.name.getGroupName();
     }
 
     /**

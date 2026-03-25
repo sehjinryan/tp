@@ -22,6 +22,12 @@ public class GroupManager {
     }
 
     /**
+     * Constructs an empty {@code GroupManager}
+     */
+    public GroupManager() {
+        this.groups = new ArrayList<>();
+    }
+    /**
      * Initialises the group manager by loading groups from storage,
      * or creating a new set of groups if no storage is found.
      */
@@ -42,42 +48,34 @@ public class GroupManager {
     }
 
     /**
-     * Adds a new group with the given ID.
+     * Adds a new group with the given name.
      *
-     * @param id The ID of the group to add.
-     * @throws GroupAlreadyExistsException If a group with the given ID already exists.
+     * @param g Group to add.
      */
-    public void addGroup(int id) {
-        requireNonNull(id);
-        validateAddGroup(id);
-        Group g = new Group(id);
+    public void addGroup(Group g) {
+        requireNonNull(g);
         groups.add(g);
     }
 
     /**
-     * Validates that no group with the given ID already exists.
+     * Validates that no group with the given name already exists.
      *
-     * @param id The ID to check.
-     * @throws GroupAlreadyExistsException If a group with the given ID already exists.
+     * @param group The name to check.
      */
-    public void validateAddGroup(int id) throws GroupAlreadyExistsException {
-        for (Group g : groups) {
-            if (g.getGroupId() == id) {
-                throw new GroupAlreadyExistsException(
-                        "A group with this ID already exists!");
-            }
-        }
+    public boolean validateAddGroup(Group group) {
+        requireNonNull(group);
+        return groups.contains(group);
     }
 
     /**
-     * Removes the group with the given ID, if it exists.
+     * Removes the group with the given name, if it exists.
      * This method should be an internal method, not to be called by user,
      * should only be called by other methods.
-     * @param id The ID of the group to remove.
+     * @param group The name of the group to remove.
      */
-    public void removeGroup(int id) {
+    public void removeGroup(Group group) {
         for (Group g : groups) {
-            if (g.getGroupId() == id) {
+            if (g.getGroupName().equals(group.getGroupName())) {
                 groups.remove(g);
                 return;
             }
