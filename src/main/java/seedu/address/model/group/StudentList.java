@@ -23,6 +23,17 @@ public class StudentList {
     }
 
     /**
+     * Constructs a filled {@code StudentList}
+     * @param students studentId to fill
+     */
+    public StudentList(ArrayList<StudentId> students) {
+        this.list = new ArrayList<>();
+        for (StudentId studentId: students) {
+            this.list.add(studentId);
+        }
+    }
+
+    /**
      * Returns the ArrayList of Students that correspond to the Students in the Group.
      * @return The ArrayList of Students as an ArrayList.
      */

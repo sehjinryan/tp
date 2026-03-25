@@ -12,9 +12,9 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.assignment.DueDate;
 import seedu.address.model.assignment.Label;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.GroupId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.StudentId;
@@ -90,21 +90,6 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String groupId} into a {@code GroupId}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code groupId} is invalid.
-     */
-    public static GroupId parseGroupId(String groupId) throws ParseException {
-        requireNonNull(groupId);
-        String trimmedGroupId = groupId.trim();
-        if (!GroupId.isValidGroupId(trimmedGroupId)) {
-            throw new ParseException(GroupId.MESSAGE_CONSTRAINTS);
-        }
-        return new GroupId(trimmedGroupId);
-    }
-
-    /**
      * Parses a {@code String tag} into a {@code Tag}.
      */
     public static Tag parseTag(String tag) throws ParseException {
@@ -153,14 +138,11 @@ public class ParserUtil {
     }
 
     /**
-     * Parses group as a plain String (Group.java is obsolete).
-     * Trims leading/trailing spaces.
-     *
-     * For MVP: allow empty string.
+     * Parses a {@code String group} into a {@code Group}.
      */
-    public static String parseGroup(String group) {
+    public static Group parseGroup(String group) {
         requireNonNull(group);
-        return group.trim();
+        return new Group(group.trim());
     }
 
     /**

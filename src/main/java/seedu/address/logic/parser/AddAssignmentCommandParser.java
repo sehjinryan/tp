@@ -11,6 +11,7 @@ import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.assignment.DueDate;
 import seedu.address.model.assignment.Label;
+import seedu.address.model.group.Group;
 
 /**
  * Parses input arguments and creates a new AddAssignmentCommand object.
@@ -44,7 +45,7 @@ public class AddAssignmentCommandParser implements Parser<AddAssignmentCommand> 
         List<String> parts = parseTuple3(remainder);
 
         Label label = ParserUtil.parseLabel(parts.get(0));
-        String group = ParserUtil.parseGroup(parts.get(1));
+        Group group = ParserUtil.parseGroup(parts.get(1));
         DueDate dueDate = ParserUtil.parseDueDate(parts.get(2));
 
         // placeholder ID, real ID assigned in AddAssignmentCommand.execute()
