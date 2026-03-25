@@ -85,7 +85,7 @@ public class EditAssignmentCommand extends Command {
 
     /**
      * Creates and returns a {@code Assignment} with the details of {@code assignmentToEdit}
-     * edited with {@code editPersonDescriptor}.
+     * edited with {@code editAssignmentDescriptor}.
      */
     private static Assignment createEditedAssignment(Assignment assignmentToEdit,
                                                      EditAssignmentDescriptor editAssignmentDescriptor) {
