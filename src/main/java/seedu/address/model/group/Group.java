@@ -1,6 +1,7 @@
 package seedu.address.model.group;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.assignment.Label.VALIDATION_REGEX;
 
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ import seedu.address.model.person.StudentId;
 public class Group {
     private final GroupName name;
     private final StudentList studentIds;
+    public static final String MESSAGE_CONSTRAINTS = "Group can take any values, and it should not be blank";
 
     /**
      * Constructs an {@code Group} with the given value.
@@ -38,7 +40,17 @@ public class Group {
     }
 
     /**
-     * Returns the {@Code GroupName} object
+     * Returns true if a given string is a valid group.
+     *
+     * @param test The string to validate.
+     * @return {@code true} if {@code test} is a valid group, {@code false} otherwise.
+     */
+    public static boolean isValidGroup(String test) {
+        return test.matches(VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns the GroupName of the group.
      *
      * @return The Group identifier.
      */
