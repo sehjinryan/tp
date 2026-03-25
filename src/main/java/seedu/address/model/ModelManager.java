@@ -16,7 +16,6 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
-import seedu.address.model.group.Group;
 import seedu.address.model.milestone.CompletedAt;
 import seedu.address.model.milestone.MilestoneRecord;
 import seedu.address.model.milestone.MilestoneResolver;
@@ -36,7 +35,6 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Assignment> filteredAssignments;
-    private final ArrayList<Group> groups;
     private final MilestoneResolver milestoneResolver = new MilestoneResolver();
 
     /**
@@ -51,7 +49,6 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredAssignments = new FilteredList<>(this.addressBook.getAssignmentList());
-        groups = new ArrayList<>(this.addressBook.getGroups());
     }
 
     public ModelManager() {
@@ -304,6 +301,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void setAssignment(Assignment target, Assignment editedAssignment) {
+        requireAllNonNull(target, editedAssignment);
+        addressBook.setAssignment(target, editedAssignment);
+    }
+
+    @Override
     public ObservableList<Assignment> getAssignmentList() {
         return addressBook.getAssignmentList();
     }
@@ -315,30 +318,4 @@ public class ModelManager implements Model {
                 .filter(a -> a.getAssignmentId().equals(assignmentId))
                 .findFirst();
     }
-
-    @Override
-    public void addStudentToGroup(Group g, StudentId id) {
-        addressBook.addStudentToGroup(g, id);
-    }
-
-    @Override
-    public void removeStudentFromGroup(Group g, StudentId id) {
-        addressBook.removeStudentFromGroup(g, id);
-    }
-
-    @Override
-    public void addGroup(Group g) {
-        requireNonNull(g);
-        addressBook.addGroup(g);
-    }
-
-    @Override
-    public void removeGroup(Group g) {
-        requireNonNull(g);
-        addressBook.removeGroup(g);
-    }
-
-
-
-
 }

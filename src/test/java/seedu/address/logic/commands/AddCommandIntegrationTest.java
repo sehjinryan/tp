@@ -12,6 +12,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentId;
 import seedu.address.testutil.PersonBuilder;
 
 /**
@@ -29,11 +30,16 @@ public class AddCommandIntegrationTest {
     @Test
     public void execute_newPerson_success() {
         Person validPerson = new PersonBuilder().build();
-        assertCommandSuccess(new AddCommand(validPerson), model,
-                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                model);
-    }
 
+        StudentId expectedId = model.getNextStudentId();
+        Person expectedAddedPerson = new PersonBuilder().withStudentId(expectedId.getValue()).build();
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.addPerson(expectedAddedPerson);
+
+        assertCommandSuccess(new AddCommand(validPerson), model,
+                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedAddedPerson)),
+                expectedModel);
+    }
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {

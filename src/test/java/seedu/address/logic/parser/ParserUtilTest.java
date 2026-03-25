@@ -8,7 +8,6 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.group.Group;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
@@ -105,15 +104,13 @@ public class ParserUtilTest {
 
     @Test
     public void parseGroup_validValueWithoutWhitespace_returnsGroup() {
-        Group expectedGroup = new Group(VALID_GROUP);
-        assertEquals(expectedGroup, ParserUtil.parseGroup(VALID_GROUP));
+        assertEquals(VALID_GROUP, ParserUtil.parseGroupAsStr(VALID_GROUP));
     }
 
     @Test
     public void parseGroup_validValueWithWhitespace_returnsTrimmedGroup() {
         String groupWithWhitespace = WHITESPACE + VALID_GROUP + WHITESPACE;
-        Group expectedGroup = new Group(VALID_GROUP);
-        assertEquals(expectedGroup, ParserUtil.parseGroup(groupWithWhitespace));
+        assertEquals(VALID_GROUP, ParserUtil.parseGroupAsStr(groupWithWhitespace));
     }
 
     @Test

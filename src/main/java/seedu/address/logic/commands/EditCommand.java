@@ -13,7 +13,6 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.group.Group;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -67,9 +66,6 @@ public class EditCommand extends Command {
         }
 
         model.setPerson(personToEdit, editedPerson);
-        model.removeStudentFromGroup(personToEdit.getGroup(), personToEdit.getStudentId());
-        model.addGroup(editedPerson.getGroup());
-        model.addStudentToGroup(editedPerson.getGroup(), editedPerson.getStudentId());
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
@@ -84,7 +80,7 @@ public class EditCommand extends Command {
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-        Group updatedGroup = editPersonDescriptor.getGroup().orElse(personToEdit.getGroup());
+        String updatedGroup = editPersonDescriptor.getGroup().orElse(personToEdit.getGroup());
 
         return new Person(
                 personToEdit.getStudentId(),
@@ -127,7 +123,7 @@ public class EditCommand extends Command {
         private Name name;
         private Phone phone;
         private Email email;
-        private Group group;
+        private String group;
 
         public EditPersonDescriptor() {}
 
@@ -173,11 +169,11 @@ public class EditCommand extends Command {
             return Optional.ofNullable(email);
         }
 
-        public void setGroup(Group group) {
+        public void setGroup(String group) {
             this.group = group;
         }
 
-        public Optional<Group> getGroup() {
+        public Optional<String> getGroup() {
             return Optional.ofNullable(group);
         }
 
