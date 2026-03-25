@@ -5,7 +5,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Objects;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.group.Group;
 
 /**
  * Represents a Person in the address book.
@@ -18,13 +17,13 @@ public class Person {
     private final Name name;
     private final Phone phone;
     private final Email email;
-    private final Group group;
+    private final String group;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(StudentId studentId, Name name, Phone phone, Email email, Group group) {
-        requireAllNonNull(studentId, name, phone, email, group);
+    public Person(StudentId studentId, Name name, Phone phone, Email email, String group) {
+        requireAllNonNull(studentId, name, phone, email);
         this.studentId = studentId;
         this.name = name;
         this.phone = phone;
@@ -47,7 +46,7 @@ public class Person {
     public Email getEmail() {
         return email;
     }
-    public Group getGroup() {
+    public String getGroup() {
         return group;
     }
     /**
@@ -83,7 +82,7 @@ public class Person {
                 && name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && group.getGroupName().equals(otherPerson.group.getGroupName());
+                && group.equals(otherPerson.group);
     }
 
     @Override

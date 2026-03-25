@@ -7,8 +7,8 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.assignment.DueDate;
+import seedu.address.model.assignment.Group;
 import seedu.address.model.assignment.Label;
-import seedu.address.model.group.Group;
 
 /**
  * Jackson-friendly version of {@link Assignment}.
@@ -42,7 +42,7 @@ public class JsonAdaptedAssignment {
     public JsonAdaptedAssignment(Assignment source) {
         assignmentId = source.getAssignmentId().getValue();
         label = source.getLabel().label;
-        group = source.getGroup().getGroupName().toString();
+        group = source.getGroup().group;
         dueDate = source.getDueDate().toStorageString();
     }
 
@@ -77,8 +77,13 @@ public class JsonAdaptedAssignment {
         final DueDate modelDueDate = new DueDate(dueDate);
 
         if (group == null) {
-            throw new IllegalValueException("Group name is not a string");
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Group.class.getSimpleName()));
         }
+
+        if (!Group.isValidGroup(group)) {
+            throw new IllegalValueException(Group.MESSAGE_CONSTRAINTS);
+        }
+
         final Group modelGroup = new Group(group);
 
         return new Assignment(modelAssignmentId, modelLabel, modelGroup, modelDueDate);
