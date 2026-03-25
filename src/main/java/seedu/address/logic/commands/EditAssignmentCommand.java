@@ -70,7 +70,7 @@ public class EditAssignmentCommand extends Command {
 
         // Excludes the current assignment being edited from the duplicate check
         boolean duplicate = model.getAssignmentList().stream()
-                .filter(a -> a.getAssignmentId().equals(assignmentToEdit.getAssignmentId()))
+                .filter(a -> !a.getAssignmentId().equals(assignmentToEdit.getAssignmentId()))
                 .anyMatch(a ->
                         a.getLabel().equals(editedAssignment.getLabel())
                                 && a.getGroup().equals(editedAssignment.getGroup())
