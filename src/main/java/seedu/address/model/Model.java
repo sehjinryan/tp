@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
+import seedu.address.model.group.Group;
 import seedu.address.model.milestone.CompletedAt;
 import seedu.address.model.milestone.MilestoneRecord;
 import seedu.address.model.milestone.MilestoneStatus;
@@ -180,4 +181,14 @@ public interface Model {
      * Generates the next available AssignmentId in the form A1, A2, A3... based on existing assignments.
      */
     AssignmentId getNextAssignmentId();
+
+    void addStudentToGroup(Group group, StudentId id);
+
+    void addGroup(Group group);
+
+    void removeGroup(Group group);
+
+    void removeStudentFromGroup(Group group, StudentId id);
+
+
 }

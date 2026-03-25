@@ -9,6 +9,7 @@ import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.assignment.DueDate;
 import seedu.address.model.assignment.Group;
 import seedu.address.model.assignment.Label;
+import seedu.address.model.group.Group;
 
 /**
  * Jackson-friendly version of {@link Assignment}.
@@ -42,7 +43,7 @@ public class JsonAdaptedAssignment {
     public JsonAdaptedAssignment(Assignment source) {
         assignmentId = source.getAssignmentId().getValue();
         label = source.getLabel().label;
-        group = source.getGroup().group;
+        group = source.getGroup().getGroupName().toString();
         dueDate = source.getDueDate().toStorageString();
     }
 
