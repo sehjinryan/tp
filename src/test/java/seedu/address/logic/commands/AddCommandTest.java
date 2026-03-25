@@ -155,7 +155,7 @@ public class AddCommandTest {
         return new Assignment(
                 new AssignmentId(id),
                 new Label(label),
-                group,
+                new Group(group),
                 new DueDate(dueDate)
         );
     }
