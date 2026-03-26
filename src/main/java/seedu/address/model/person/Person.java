@@ -2,10 +2,10 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.group.Group;
@@ -32,7 +32,9 @@ public class Person {
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.groups.addAll(groups);
+        for (Group group : groups) {
+            this.groups.add(new Group(group.getGroupName().name));
+        }
     }
 
     public StudentId getStudentId() {
@@ -51,7 +53,9 @@ public class Person {
         return email;
     }
     public Set<Group> getGroups() {
-        return Collections.unmodifiableSet(groups);
+        return groups.stream()
+                .map(group -> new Group(group.getGroupName().name))
+                .collect(Collectors.toUnmodifiableSet());
     }
     /**
      * Returns true if both persons have the same name.
