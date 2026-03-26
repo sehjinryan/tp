@@ -117,7 +117,8 @@ public class Group {
         }
 
         Group otherGroup = (Group) other;
-        return name.equals(otherGroup.name);
+        return name.equals(otherGroup.name)
+                && studentIds.equals(otherGroup.studentIds);
     }
     @Override
     public int hashCode() {
