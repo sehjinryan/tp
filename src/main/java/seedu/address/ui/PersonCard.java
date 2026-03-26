@@ -10,6 +10,9 @@ import seedu.address.model.group.Group;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.Flow;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -39,7 +42,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
-    private Label group;
+    private FlowPane group;
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
@@ -50,8 +53,13 @@ public class PersonCard extends UiPart<Region> {
         name.setText(person.getName().fullName);
         phone.setText("Phone: " + person.getPhone().value);
         email.setText("Email: " + person.getEmail().value);
-        if (group != null) {
-            group.getChildren().add(new Label(person.getGroup()));
-        }
+        Set<Group> groupSet = new HashSet<>(Collections.singleton(person.getGroup()));
+        groupSet.stream()
+                .forEach(g -> {
+                    Label label = new Label(g.getGroupName().toString());
+                    label.getStyleClass().add("group-bubble");
+                    group.getChildren().add(label);
+                });
     }
 }
+
