@@ -18,6 +18,8 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.GetStudentCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.SetMilestoneCommand;
+import seedu.address.logic.parser.SetMilestoneCommandParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -87,6 +89,12 @@ public class AddressBookParser {
             }
             if (arguments.trim().startsWith("/assignments")) {
                 return new GetAssignmentCommandParser().parse(arguments);
+            }
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+
+        case SetMilestoneCommand.COMMAND_WORD:
+            if (arguments.trim().startsWith("/students") && arguments.contains("/milestones")) {
+                return new SetMilestoneCommandParser().parse(arguments);
             }
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
 
