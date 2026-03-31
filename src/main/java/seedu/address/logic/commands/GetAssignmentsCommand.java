@@ -17,8 +17,8 @@ public class GetAssignmentsCommand extends Command {
             "get /assignments: Lists all assignments.\n"
                     + "Example: get /assignments";
 
-    private static final String MESSAGE_NO_ASSIGNMENTS = "No assignments found.";
-    private static final String MESSAGE_LIST_HEADER = "Assignments:";
+    public static final String MESSAGE_NO_ASSIGNMENTS = "No assignments found.";
+    public static final String MESSAGE_SUCCESS = "Listed all assignments.";
 
     /**
      * Executes the command and returns a list of all assignments.
@@ -39,9 +39,7 @@ public class GetAssignmentsCommand extends Command {
             return new CommandResult(MESSAGE_NO_ASSIGNMENTS);
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(MESSAGE_LIST_HEADER);
 
-        return new CommandResult("Now displaying all assignments");
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 }

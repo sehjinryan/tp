@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
@@ -25,8 +25,9 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
+import seedu.address.model.assignment.DueDate;
+import seedu.address.model.assignment.Label;
 import seedu.address.model.group.Group;
-import seedu.address.model.group.exceptions.AlreadyInGroupException;
 import seedu.address.model.milestone.CompletedAt;
 import seedu.address.model.milestone.MilestoneRecord;
 import seedu.address.model.milestone.MilestoneStatus;
@@ -36,80 +37,83 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
 import seedu.address.testutil.PersonBuilder;
 
-public class AddCommandTest {
+/**
+ * Contains unit tests for {@link AddAssignmentCommand}.
+ */
+public class AddAssignmentCommandTest {
 
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new AddCommand(null));
+    public void constructor_nullAssignment_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AddAssignmentCommand(null));
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Person validPerson = new PersonBuilder().build();
+    public void execute_assignmentAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingAssignmentAdded modelStub = new ModelStubAcceptingAssignmentAdded();
+        Assignment input = assignment("A0", "A-JUnit", "Sec3A", "2026-02-20");
 
-        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
+        CommandResult result = new AddAssignmentCommand(input).execute(modelStub);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                commandResult.getFeedbackToUser());
-        Person addedPerson = modelStub.personsAdded.get(0);
-        assertEquals(validPerson.getStudentId(), addedPerson.getStudentId());
-        assertEquals(validPerson.getName(), addedPerson.getName());
-        assertEquals(validPerson.getPhone(), addedPerson.getPhone());
-        assertEquals(validPerson.getEmail(), addedPerson.getEmail());
+        Assignment expectedAdded = assignment("A1", "A-JUnit", "Sec3A", "2026-02-20");
+        assertEquals(String.format(AddAssignmentCommand.MESSAGE_SUCCESS, Messages.formatA(expectedAdded)),
+                result.getFeedbackToUser());
+        assertEquals(java.util.List.of(expectedAdded), modelStub.assignmentsAdded);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Person validPerson = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(validPerson);
-        ModelStub modelStub = new ModelStubWithPerson(validPerson);
+    public void execute_duplicateAssignment_throwsCommandException() {
+        Assignment existing = assignment("A5", "A-JUnit", "Sec3A", "2026-02-20");
+        Assignment toAddDifferentIdSameFields = assignment("A0", "A-JUnit", "Sec3A", "2026-02-20");
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+        AddAssignmentCommand command = new AddAssignmentCommand(toAddDifferentIdSameFields);
+        ModelStub modelStub = new ModelStubWithExistingAssignments(existing);
+
+        assertThrows(CommandException.class, AddAssignmentCommand.MESSAGE_DUPLICATE_ASSIGNMENT, () ->
+                command.execute(modelStub));
     }
 
     @Test
     public void equals() {
-        Person alice = new PersonBuilder().withName("Alice").build();
-        Person bob = new PersonBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
+        Assignment a1 = assignment("A0", "A-JUnit", "Sec3A", "2026-02-20");
+        Assignment a2 = assignment("A0", "A-Streams", "Sec3A", "2026-02-20");
 
-        // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
+        AddAssignmentCommand addA1 = new AddAssignmentCommand(a1);
+        AddAssignmentCommand addA2 = new AddAssignmentCommand(a2);
 
-        // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
-
-        // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
-
-        // different person -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
+        assertTrue(addA1.equals(addA1));
+        assertTrue(addA1.equals(new AddAssignmentCommand(a1)));
+        assertFalse(addA1.equals(1));
+        assertFalse(addA1.equals(null));
+        assertFalse(addA1.equals(addA2));
     }
 
     @Test
     public void toStringMethod() {
-        AddCommand addCommand = new AddCommand(ALICE);
-        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
-        assertEquals(expected, addCommand.toString());
+        Assignment a1 = assignment("A0", "A-JUnit", "Sec3A", "2026-02-20");
+        AddAssignmentCommand command = new AddAssignmentCommand(a1);
+        assertEquals("AddAssignmentCommand{toAdd=" + a1 + "}", command.toString());
+    }
+
+    private static Assignment assignment(String id, String label, String group, String dueDate) {
+        return new Assignment(
+                new AssignmentId(id),
+                new Label(label),
+                new Group(group),
+                new DueDate(dueDate)
+        );
     }
 
     /**
-     * A default model stub that have all of the methods failing.
+     * A default model stub with all methods failing.
      */
     private class ModelStub implements Model {
         @Override
-        public boolean hasAssignment(seedu.address.model.assignment.Assignment assignment) {
+        public boolean hasAssignment(Assignment assignment) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void addAssignment(seedu.address.model.assignment.Assignment assignment) {
+        public void addAssignment(Assignment assignment) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -120,19 +124,17 @@ public class AddCommandTest {
 
         @Override
         public StudentMilestones getMilestones(StudentId studentId) {
-            // AddCommand does not use milestones; return empty for test compilation.
             return new StudentMilestones();
         }
 
         @Override
         public void setMilestone(StudentId studentId, AssignmentId assignmentId,
                                  MilestoneStatus status, CompletedAt completedAt) {
-            // AddCommand does not use milestones; no-op for tests.
+            // no-op for tests
         }
 
         @Override
         public MilestoneRecord getMilestone(StudentId studentId, AssignmentId assignmentId) {
-            // AddCommand does not use milestones; return empty.
             return null;
         }
 
@@ -148,7 +150,6 @@ public class AddCommandTest {
 
         @Override
         public StudentMilestoneView getResolvedMilestones(StudentId studentId) {
-            // AddCommand does not use resolved milestones; return empty for test compilation.
             return new StudentMilestoneView(studentId, Collections.emptyList());
         }
 
@@ -276,73 +277,66 @@ public class AddCommandTest {
         public void removeGroup(Group group) {
             throw new AssertionError("This method should not be called.");
         }
-
-
     }
 
     /**
-     * A Model stub that contains a single person.
+     * A model stub that contains pre-existing assignments.
      */
-    private class ModelStubWithPerson extends ModelStub {
-        private final Person person;
+    private class ModelStubWithExistingAssignments extends ModelStub {
+        private final ObservableList<Assignment> assignments;
 
-        ModelStubWithPerson(Person person) {
-            requireNonNull(person);
-            this.person = person;
+        ModelStubWithExistingAssignments(Assignment... assignments) {
+            this.assignments = FXCollections.observableArrayList(assignments);
         }
 
         @Override
-        public boolean hasPerson(Person person) {
-            requireNonNull(person);
-            return this.person.isSamePerson(person);
+        public boolean hasAssignment(Assignment assignment) {
+            requireNonNull(assignment);
+            return assignments.stream().anyMatch(assignment::isSameAssignment);
+        }
+
+        @Override
+        public ObservableList<Assignment> getAssignmentList() {
+            return assignments;
+        }
+
+        @Override
+        public AssignmentId getNextAssignmentId() {
+            return new AssignmentId("A999");
         }
     }
 
     /**
-     * A Model stub that always accept the person being added.
+     * A model stub that always accepts the assignment being added.
      */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
-        final ArrayList<Person> personsAdded = new ArrayList<>();
-        final ArrayList<Group> groupsAdded = new ArrayList<>();
+    private class ModelStubAcceptingAssignmentAdded extends ModelStub {
+        final ArrayList<Assignment> assignmentsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasPerson(Person person) {
-            requireNonNull(person);
-            return personsAdded.stream().anyMatch(person::isSamePerson);
+        public boolean hasAssignment(Assignment assignment) {
+            requireNonNull(assignment);
+            return assignmentsAdded.stream().anyMatch(assignment::isSameAssignment);
         }
 
         @Override
-        public void addPerson(Person person) {
-            requireNonNull(person);
-            personsAdded.add(person);
+        public ObservableList<Assignment> getAssignmentList() {
+            return FXCollections.observableArrayList(assignmentsAdded);
+        }
+
+        @Override
+        public void addAssignment(Assignment assignment) {
+            requireNonNull(assignment);
+            assignmentsAdded.add(assignment);
+        }
+
+        @Override
+        public AssignmentId getNextAssignmentId() {
+            return new AssignmentId("A1");
         }
 
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
-
-        @Override
-        public void addGroup(Group group) {
-            requireNonNull(group);
-            if (!groupsAdded.stream().anyMatch(group::isSameGroup)) {
-                groupsAdded.add(group);
-            }
-        }
-
-        @Override
-        public void addStudentToGroup(Group g, StudentId id) {
-            for (Group group : groupsAdded) {
-                try {
-                    if (g.getGroupName().equals(group.getGroupName())) {
-                        group.addStudent(id);
-                    }
-                } catch (AlreadyInGroupException e) {
-                    // do nothing
-                }
-            }
-        }
     }
-
-
 }
