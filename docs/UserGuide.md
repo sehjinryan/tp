@@ -112,9 +112,57 @@ Shows the details of a student in the address book.
 Format: `get /students <studentId>`
 
 * Shows the details of the student with the specified `studentId`.
-* The `studentId` is the unique identifier of a student, which is automatically generated when a student is added to the address book. It is a **positive integer** that increments by 1 for each new student added. The first student added will have a `studentId` of 1, the second student will have a `studentId` of 2, and so on.
+* The `studentId` is the unique identifier of a student, which is automatically generated when a student is added to the address book.
+* Student IDs are shown in the format `S1`, `S2`, `S3`, ...
 
-Example: `get /students 3`
+Example: `get /students S1`
+
+### Viewing milestone progress for a student: `get /students ... /milestones`
+
+Shows the milestone progress of a student.
+
+Format: `get /students <studentId> /milestones`
+
+* Shows the milestone progress of the student with the specified `studentId`.
+* The `studentId` is the unique identifier of a student and is shown in the app as values such as `S1`, `S2`, `S3`, ...
+* Each milestone corresponds to one assignment.
+* A student only sees milestones for assignments that belong to the same group as the student.
+* Milestone status is stored internally as either `NOT_STARTED` or `COMPLETED`.
+* `OVERDUE` is a view-only status. It is computed automatically when an assignment’s due date has passed and the milestone is still not completed.
+* The milestone list is shown in assignment order.
+
+Example: `get /students S1 /milestones`
+
+Expected output format:
+* `A1 | NOT_STARTED | due=2026-04-01 | completedAt=-`
+* `A2 | COMPLETED | due=2026-04-03 | completedAt=2026-03-30T1200H`
+* `A3 | OVERDUE | due=2026-03-20 | completedAt=-`
+
+### Updating one milestone for a student: `set /students ... /milestones`
+
+Sets the milestone status of one assignment for one student.
+
+Format: `set /students <studentId> /milestones <assignmentId> <status> [completedAt]`
+
+* The `studentId` is the unique identifier of a student and is shown in the app as values such as `S1`, `S2`, `S3`, ...
+* The `assignmentId` is the unique identifier of an assignment and is shown in the app as values such as `A1`, `A2`, `A3`, ...
+* Only the following stored milestone statuses are allowed:
+    * `NOT_STARTED`
+    * `COMPLETED`
+* If the status is `NOT_STARTED`, do not provide a `completedAt` value.
+* If the status is `COMPLETED`, a `completedAt` value must be provided.
+* `OVERDUE` cannot be set manually because it is computed automatically for display.
+* A milestone can only be set for an assignment that belongs to the same group as the student.
+* If the student does not exist, the assignment does not exist, or the assignment is not in the student’s group, the command will fail.
+
+Examples:
+* `set /students S1 /milestones A1 NOT_STARTED`
+* `set /students S1 /milestones A1 COMPLETED 2026-03-30T1200H`
+
+Notes:
+* Use `NOT_STARTED` to reset a milestone to incomplete.
+* Use `COMPLETED <completedAt>` to mark a milestone as completed.
+* The `completedAt` value should follow the app’s accepted timestamp format.
 
 ### View details of an assignment: `get /assignments`
 
@@ -123,9 +171,10 @@ Shows the details of an assignment in the address book.
 Format: `get /assignments <assignmentId>`
 
 * Shows the details of the assignment with the specified `assignmentId`.
-* The `assignmentId` is the unique identifier of an assignment, which is automatically generated when an assignment is added to the address book. It is a **positive integer** that increments by 1 for each new assignment added. The first assignment added will have an `assignmentId` of 1, the second assignment will have an `assignmentId` of 2, and so on.
+* The `assignmentId` is the unique identifier of an assignment, which is automatically generated when an assignment is added to the address book.
+* Assignment IDs are shown in the format `A1`, `A2`, `A3`, ...
 
-Example: `get /assignments 2`
+Example: `get /assignments A1`
 
 ### Locating students by name: `find /students`
 
