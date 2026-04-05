@@ -81,7 +81,11 @@ Adds a student to the address book.
 
 Format: `add /students {<name>; <phone>; <email>; <group>}`
 
-Example: `add /students {John Doe; 98765432; johnd@example.com; Sec3A}`
+* The groups field allows for multiple groups to be added. Each new group will have to be separated by a `,`.
+
+Examples: 
+* `add /students {John Doe; 98765432; johnd@example.com; Sec3A}`
+* `add /students {John Doe; 98765432; johnd@example.com; Sec3A, Math, Chemistry}`
 
 ### Adding an assignment: `add /assignments`
 
@@ -178,6 +182,7 @@ Example: `get /assignments A1`
 
 ### Locating students by name: `find /students`
 
+
 Finds students whose names contain any of the given keywords.
 
 Format: `find /students <keywords>`
@@ -201,7 +206,8 @@ Edits the details of a student in the address book.
 Format: `edit /students <studentId> {<name>; <phone>; <email>; <group>}`
 
 * Edits the person at the specified `studentId`
-* All fields must be provided when editing a student, and the fields will be updated to the input values. For example, if you only want to update the phone number of a student, you will need to provide the existing values for the other fields (name, email and group) as well.
+* Empty fields can be added if you do not wish to edit that particular field. For example: If you only want to edit the name of a student, you would enter `edit /students <studentId> {John; ; ;}`.
+* Edits to Groups field follows the same format for adding a student, use the `,` symbol to separate different group names.
 
 Example: `edit /students 1 {John Doe; 98765432; johnd@mail.com; Sec3B}`
 
@@ -248,8 +254,8 @@ AddressBook data are saved automatically as a JSON file `[JAR file location]/dat
 <box type="warning" seamless>
 
 **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, LeTutor will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause LeTutor to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 
 </box>
 
@@ -258,7 +264,7 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous LeTutor home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
