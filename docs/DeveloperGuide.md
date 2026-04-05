@@ -707,6 +707,41 @@ Preconditions: Target Assignment already exists in the directory.
 
       Use case ends.
 
+---
+
+### Use case 14: Add a Group
+
+Name: Add Group
+
+Actor: Tutor, TA
+
+System: LeTutor
+
+Preconditions: Tutor or TA is adding a new student profile or editing an existing student profile.
+
+**MSS**
+1. Tutor or TA <u>adds a student profile (U1)</u> or <u>edits a student profile (U3)</u>.
+2. Tutor or TA enters a valid group name that does not yet exist.
+3. System validates the group name.
+4. System checks whether the group already exists.
+5. System creates the new group.
+6. System associates the student profile with the new group.
+7. UI shows the confirmation message for the student add or edit action.
+
+      Use case ends.
+
+**Extensions**
+* 3a. Invalid group name
+    * 3a1. System shows an error message
+
+      Use case ends.
+
+* 4a. Group already exists
+    * 4a1. System does not create a duplicate group
+    * 4a2. System associates the student profile with the existing group instead
+
+      Use case ends.
+
 *{More to be added}*
 
 ### Non-Functional Requirements
