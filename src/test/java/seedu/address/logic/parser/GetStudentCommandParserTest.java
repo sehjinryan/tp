@@ -8,10 +8,8 @@ import static seedu.address.testutil.TypicalStudentId.STUDENT_ID_FIRST_PERSON;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.GetAssignmentsCommand;
 import seedu.address.logic.commands.GetStudentCommand;
 import seedu.address.logic.commands.GetStudentsCommand;
-import seedu.address.model.person.StudentId;
 
 public class GetStudentCommandParserTest {
 
