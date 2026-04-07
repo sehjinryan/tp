@@ -33,7 +33,8 @@ public class FindGroupCommand extends Command {
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_AND_ASSIGNMENTS_LISTED_OVERVIEW,
                         model.getFilteredPersonList().size(),
-                        model.getFilteredAssignmentList().size()
+                        model.getFilteredAssignmentList().size(),
+                        this.name
                 ));
     }
 
