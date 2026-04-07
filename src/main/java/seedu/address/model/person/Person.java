@@ -82,10 +82,6 @@ public class Person {
      * Returns true if both persons have the same phone.
      */
     public boolean hasSamePhone(Person otherPerson) {
-        if (otherPerson == this) {
-            return true;
-        }
-
         return otherPerson != null
                 && otherPerson.getPhone().equals(getPhone());
     }
@@ -93,10 +89,6 @@ public class Person {
      * Returns true if both persons have the same email.
      */
     public boolean hasSameEmail(Person otherPerson) {
-        if (otherPerson == this) {
-            return true;
-        }
-
         return otherPerson != null
                 && otherPerson.getEmail().equals(getEmail());
     }
