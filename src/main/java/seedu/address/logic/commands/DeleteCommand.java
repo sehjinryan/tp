@@ -55,11 +55,10 @@ public class DeleteCommand extends Command {
         for (Group g : personToDelete.getGroups()) {
             model.removeStudentFromGroup(g, personToDelete.getStudentId());
 
-            boolean hasNoStudents = g.getStudentIds().getStudentList().isEmpty();
             boolean hasNoAssignments = model.getAssignmentList().stream()
                     .noneMatch(a -> g.equals(a.getGroup()));
 
-            if (hasNoStudents && hasNoAssignments) {
+            if (hasNoAssignments) {
                 model.removeGroup(g);
             }
         }
