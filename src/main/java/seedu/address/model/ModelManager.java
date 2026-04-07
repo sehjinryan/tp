@@ -4,9 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -17,6 +15,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.group.Group;
+import seedu.address.model.group.GroupName;
 import seedu.address.model.milestone.CompletedAt;
 import seedu.address.model.milestone.MilestoneRecord;
 import seedu.address.model.milestone.MilestoneResolver;
@@ -36,8 +35,8 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Assignment> filteredAssignments;
-    private final ArrayList<Group> groups;
     private final MilestoneResolver milestoneResolver = new MilestoneResolver();
+    private final ArrayList<Group> groups;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -221,25 +220,6 @@ public class ModelManager implements Model {
         return null;
     }
 
-    /**
-     * Returns the assignments that belong to at least one of the student's groups.
-     *
-     * @param student The student whose assignments should be returned.
-     * @return A list of assignments matching the student's groups.
-     */
-    private List<Assignment> getAssignmentsForStudent(Person student) {
-        requireNonNull(student);
-
-        List<Assignment> matchingAssignments = new ArrayList<>();
-
-        for (Assignment assignment : getAssignmentList()) {
-            if (student.getGroups().contains(assignment.getGroup())) {
-                matchingAssignments.add(assignment);
-            }
-        }
-
-        return matchingAssignments;
-    }
 
     @Override
     public StudentId getNextStudentId() {
@@ -325,7 +305,7 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(otherModelManager.filteredPersons);
     }
 
-    // Feature 3: Assignment Library
+    //======================= Assignments =============================
 
     @Override
     public boolean hasAssignment(Assignment assignment) {
@@ -364,7 +344,28 @@ public class ModelManager implements Model {
                 .findFirst();
     }
 
+    /**
+     * Returns the assignments that belong to at least one of the student's groups.
+     *
+     * @param student The student whose assignments should be returned.
+     * @return A list of assignments matching the student's groups.
+     */
+    private List<Assignment> getAssignmentsForStudent(Person student) {
+        requireNonNull(student);
+
+        List<Assignment> matchingAssignments = new ArrayList<>();
+
+        for (Assignment assignment : getAssignmentList()) {
+            if (student.getGroups().contains(assignment.getGroup())) {
+                matchingAssignments.add(assignment);
+            }
+        }
+
+        return matchingAssignments;
+    }
+
     //======================= Groups =============================
+
     @Override
     public void addStudentToGroup(Group g, StudentId id) {
         addressBook.addStudentToGroup(g, id);
@@ -387,7 +388,27 @@ public class ModelManager implements Model {
         addressBook.removeGroup(g);
     }
 
+    @Override
+    public void setFilteredPersonsAndAssignmentsByGroups(GroupName name) {
+        requireNonNull(name);
+        Optional<Group> matchingGroup = addressBook.getGroups().stream()
+                .filter(g -> g.getGroupName().equals(name))
+                .findFirst();
+
+        System.out.println(name);
+        if (matchingGroup.isPresent()) {
+            Set<StudentId> studentIdSet = new HashSet<>(matchingGroup.get().getStudentIds().getStudentList());
+
+            filteredPersons.setPredicate(person -> studentIdSet.contains(person.getStudentId()));
 
 
+        } else {
+            filteredPersons.setPredicate(person -> false);
 
+        }
+        filteredAssignments.setPredicate(assignment ->
+                assignment.getGroup().getGroupName().equals(name)
+        );
+
+    }
 }
