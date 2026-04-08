@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.group.exceptions.AlreadyInGroupException;
 import seedu.address.model.group.exceptions.NotInGroupException;
-import seedu.address.model.person.StudentId;
 
+/**
+ * Value object representing the list of Assignments in a particular Group.
+ * Stores a list of AssignmentIds that correspond to the Assignments in a particular Group.
+ */
 public class AssignmentList {
 
     public final ArrayList<AssignmentId> assignments;
