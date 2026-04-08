@@ -37,6 +37,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Assignment> filteredAssignments;
+    private final ArrayList<Group> groups;
     private final MilestoneResolver milestoneResolver = new MilestoneResolver();
     private final ArrayList<Group> groups;
 
@@ -110,6 +111,18 @@ public class ModelManager implements Model {
     public boolean hasPerson(Person person) {
         requireNonNull(person);
         return addressBook.hasPerson(person);
+    }
+
+    @Override
+    public boolean hasSamePhone(Person person) {
+        requireNonNull(person);
+        return addressBook.hasPhone(person);
+    }
+
+    @Override
+    public boolean hasSameEmail(Person person) {
+        requireNonNull(person);
+        return addressBook.hasEmail(person);
     }
 
     @Override

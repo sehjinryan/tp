@@ -81,6 +81,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         setPersons(newData.getPersonList());
         setMilestoneStore(newData.getMilestoneStore());
         setAssignments(newData.getAssignmentList());
+        setGroups(newData.getGroups());
     }
 
     // ==================== person operations ====================
@@ -90,6 +91,20 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean hasPerson(Person person) {
         requireNonNull(person);
         return persons.contains(person);
+    }
+    /**
+     * Returns true if a person with the same phone as {@code person} exists in the address book.
+     */
+    public boolean hasPhone(Person person) {
+        requireNonNull(person);
+        return persons.containsPhone(person);
+    }
+    /**
+     * Returns true if a person with the same email as {@code person} exists in the address book.
+     */
+    public boolean hasEmail(Person person) {
+        requireNonNull(person);
+        return persons.containsEmail(person);
     }
 
     /**
@@ -207,6 +222,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         groups.removeStudentFromGroup(g, id);
     }
 
+    /**
+     * Replaces the Groups in internal GroupManager to a new one
+     */
+    public void setGroups(List<Group> groups) {
+        this.groups.setGroups(groups);
+    }
     @Override
     public ObservableList<Person> getPersonList() {
         return persons.asUnmodifiableObservableList();
