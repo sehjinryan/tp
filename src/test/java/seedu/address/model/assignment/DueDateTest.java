@@ -31,10 +31,14 @@ public class DueDateTest {
         assertFalse(DueDate.isValidDateFormat("abcd-ef-gh"));
         assertFalse(DueDate.isValidDateFormat(""));
         assertFalse(DueDate.isValidDateFormat("   "));
+        assertFalse(DueDate.isValidDate("2026-02-31"));
+        assertFalse(DueDate.isValidDate("2026-04-32"));
 
         // valid due dates
         assertTrue(DueDate.isValidDateFormat("2026-04-20"));
         assertTrue(DueDate.isValidDateFormat("1999-12-31"));
+        // leap year
+        assertTrue(DueDate.isValidDate("2028-02-29"));
     }
 
     @Test
