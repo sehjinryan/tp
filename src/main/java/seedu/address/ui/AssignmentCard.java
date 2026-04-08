@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.util.Set;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -37,10 +39,12 @@ public class AssignmentCard extends UiPart<Region> {
         id.setText(assignment.getAssignmentId().toString() + ". ");
         label.setText(assignment.getLabel().label);
         dueDate.setText("Due by: " + assignment.getDueDate().toString());
-        Group g = assignment.getGroup();
-        Label label = new Label(g.getGroupName().toString());
-        label.getStyleClass().add("group-bubble");
-        group.getChildren().add(label);
-
+        Set<Group> groups = assignment.getGroups();
+        groups.stream()
+                .forEach(g -> {
+                    Label label = new Label(g.getGroupName().toString());
+                    label.getStyleClass().add("group-bubble");
+                    group.getChildren().add(label);
+                });
     }
 }

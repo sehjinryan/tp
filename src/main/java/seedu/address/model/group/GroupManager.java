@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 
+import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.group.exceptions.AlreadyInGroupException;
 import seedu.address.model.person.StudentId;
 
@@ -64,7 +65,8 @@ public class GroupManager {
      */
     public void removeGroup(Group group) {
         for (Group g : groups) {
-            if (g.getGroupName().equals(group.getGroupName())) {
+            if (g.getGroupName().equals(group.getGroupName())
+                    && g.isAssignmentListEmpty()) { // && g.isStudentListEmpty()
                 groups.remove(g);
                 return;
             }
@@ -98,6 +100,40 @@ public class GroupManager {
             try {
                 if (g.getGroupName().equals(group.getGroupName())) {
                     group.removeStudent(id);
+                }
+            } catch (AlreadyInGroupException e) {
+                //do nothing
+            }
+        }
+    }
+
+    /**
+     * Adds assignmentId to group, ignores if assignment already in group
+     * @param g group to add AssignmentId
+     * @param id target AssignmentId
+     */
+    public void addAssignmentToGroup(Group g, AssignmentId id) {
+        for (Group group : groups) {
+            try {
+                if (g.getGroupName().equals(group.getGroupName())) {
+                    group.addAssignment(id);
+                }
+            } catch (AlreadyInGroupException e) {
+                // do nothing
+            }
+        }
+    }
+
+    /**
+     * remove AssignmentId from group
+     * @param g group to add assignmentId
+     * @param id target assignmentId
+     */
+    public void removeAssignmentFromGroup(Group g, AssignmentId id) {
+        for (Group group : groups) {
+            try {
+                if (g.getGroupName().equals(group.getGroupName())) {
+                    group.removeAssignment(id);
                 }
             } catch (AlreadyInGroupException e) {
                 //do nothing

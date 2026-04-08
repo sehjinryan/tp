@@ -1,9 +1,14 @@
 package seedu.address.model.assignment;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.group.Group;
+import seedu.address.model.group.GroupName;
 
 /**
  * Represents an Assignment in LeTutor.
@@ -13,7 +18,7 @@ public class Assignment {
 
     private final AssignmentId assignmentId;
     private final Label label;
-    private final Group group;
+    private final Set<Group> groups;
     private final DueDate dueDate;
 
     /**
@@ -22,13 +27,13 @@ public class Assignment {
      *
      * @param assignmentId Unique identifier for the assignment (e.g., A301).
      * @param label The label shown to users (e.g., A-JUnit).
-     * @param group Group/class tag (stored as plain String). Use "" if not applicable.
+     * @param groups The groups associated with this assignment (e.g., G01, G02).
      * @param dueDate Due date of assignment (can be "" depending on DueDate rules).
      */
-    public Assignment(AssignmentId assignmentId, Label label, Group group, DueDate dueDate) {
+    public Assignment(AssignmentId assignmentId, Label label, Set<Group> groups, DueDate dueDate) {
         this.assignmentId = assignmentId;
         this.label = label;
-        this.group = group;
+        this.groups = new HashSet<>(groups);
         this.dueDate = dueDate;
     }
 
@@ -51,12 +56,12 @@ public class Assignment {
     }
 
     /**
-     * Returns the group or class tag associated with this assignment.
+     * Returns the groups associated with this assignment.
      *
-     * @return The group string.
+     * @return The groups associated with this assignment.
      */
-    public Group getGroup() {
-        return group;
+    public Set<Group> getGroups() {
+        return Collections.unmodifiableSet(groups);
     }
 
     /**
@@ -66,6 +71,31 @@ public class Assignment {
      */
     public DueDate getDueDate() {
         return dueDate;
+    }
+
+    /**
+     * Returns true if both Assignments have the same label.
+     * This defines a weaker notion of equality between two Assignments.
+     *
+     * @param otherAssignment The assignment to compare against.
+     * @return {@code true} if the assignments have the same label, {@code false} otherwise.
+     */
+    public boolean isSameAssignment(Assignment otherAssignment) {
+        if (otherAssignment == this) {
+            return true;
+        }
+        return otherAssignment != null
+                && otherAssignment.getLabel().equals(getLabel());
+    }
+
+    /**
+     * Getter that find the {@Code GroupName} of all Groups
+     * @return the GroupName of all the groups
+     */
+    private Set<GroupName> getGroupNames() {
+        return groups.stream()
+                .map(Group::getGroupName)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -82,26 +112,12 @@ public class Assignment {
         }
 
         Assignment otherAssignment = (Assignment) other;
+        Set<GroupName> thisGroupNames = getGroupNames();
+        Set<GroupName> otherGroupNames = otherAssignment.getGroupNames();
         return assignmentId.equals(otherAssignment.assignmentId)
                 && label.equals(otherAssignment.label)
-                && group.equals(otherAssignment.group)
+                && thisGroupNames.equals(otherGroupNames)
                 && dueDate.equals(otherAssignment.dueDate);
-    }
-
-    /**
-     * Returns true if both Assignments have the same label and group.
-     * This defines a weaker notion of equality between two Assignments.
-     *
-     * @param otherAssignment The assignment to compare against.
-     * @return {@code true} if the assignments have the same label and group, {@code false} otherwise.
-     */
-    public boolean isSameAssignment(Assignment otherAssignment) {
-        if (otherAssignment == this) {
-            return true;
-        }
-        return otherAssignment != null
-                && otherAssignment.getLabel().equals(getLabel())
-                && otherAssignment.getGroup().equals(getGroup());
     }
 
     /**
@@ -111,7 +127,7 @@ public class Assignment {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(assignmentId, label, group, dueDate);
+        return Objects.hash(assignmentId, label, groups, dueDate);
     }
 
     /**
@@ -124,7 +140,7 @@ public class Assignment {
         return new ToStringBuilder(this)
                 .add("assignmentId", assignmentId)
                 .add("label", label)
-                .add("group", group)
+                .add("group", groups)
                 .add("dueDate", dueDate)
                 .toString();
     }

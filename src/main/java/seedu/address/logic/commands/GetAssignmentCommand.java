@@ -56,7 +56,7 @@ public class GetAssignmentCommand extends Command {
         String message = "Assignment details:\n"
                 + "ID: " + a.getAssignmentId() + "\n"
                 + "Label: " + a.getLabel() + "\n"
-                + "Group: " + a.getGroup() + "\n"
+                + "Group: " + a.getGroups() + "\n"
                 + "Due: " + a.getDueDate();
 
         return new CommandResult(String.format(MESSAGE_GET_ASSIGNMENT_SUCCESS, assignmentId));

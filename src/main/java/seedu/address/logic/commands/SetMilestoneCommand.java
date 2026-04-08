@@ -2,6 +2,9 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Collections;
+import java.util.Set;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.assignment.Assignment;
@@ -70,7 +73,7 @@ public class SetMilestoneCommand extends Command {
             throw new CommandException(String.format(MESSAGE_ASSIGNMENT_NOT_FOUND, assignmentId));
         }
 
-        if (!student.getGroups().contains(assignment.getGroup())) {
+        if (Collections.disjoint(student.getGroups(), assignment.getGroups())) {
             throw new CommandException(String.format(
                     MESSAGE_ASSIGNMENT_NOT_IN_STUDENT_GROUP, assignmentId, studentId));
         }

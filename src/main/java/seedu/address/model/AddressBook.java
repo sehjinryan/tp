@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentBook;
+import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.GroupManager;
 import seedu.address.model.milestone.MilestoneStore;
@@ -205,6 +206,24 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     public void removeStudentFromGroup(Group g, StudentId id) {
         groups.removeStudentFromGroup(g, id);
+    }
+
+    /**
+     * Adds an assignment to a Group
+     * @param g Group to add assignment to
+     * @param id AssignmentId of the assignment
+     */
+    public void addAssignmentToGroup(Group g, AssignmentId id) {
+        groups.addAssignmentToGroup(g, id);
+    }
+
+    /**
+     * Removes an assignment from a Group
+     * @param g Group to remove assignment from
+     * @param id AssignmentId of the assignment
+     */
+    public void removeAssignmentFromGroup(Group g, AssignmentId id) {
+        groups.removeAssignmentFromGroup(g, id);
     }
 
     @Override

@@ -8,6 +8,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.AssignmentId;
+import seedu.address.model.group.Group;
 
 /**
  * Deletes an assignment from the assignment library.
@@ -57,6 +58,12 @@ public class DeleteAssignmentCommand extends Command {
 
         Assignment assignmentToDelete = maybe.get();
         model.deleteAssignment(assignmentToDelete);
+
+        for (Group g : assignmentToDelete.getGroups()) {
+            model.removeAssignmentFromGroup(g, assignmentId);
+            model.removeGroup(g); // remove the group if it has no more assignments or students
+        }
+
         return new CommandResult(String.format(MESSAGE_DELETE_ASSIGNMENT_SUCCESS, assignmentId));
     }
 

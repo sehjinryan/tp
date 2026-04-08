@@ -190,5 +190,7 @@ public interface Model {
 
     void removeStudentFromGroup(Group group, StudentId id);
 
+    void addAssignmentToGroup(Group g, AssignmentId newId);
 
+    void removeAssignmentFromGroup(Group g, AssignmentId id);
 }

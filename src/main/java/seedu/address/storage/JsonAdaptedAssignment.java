@@ -1,5 +1,11 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,7 +25,7 @@ public class JsonAdaptedAssignment {
 
     private final String assignmentId;
     private final String label;
-    private final String group;
+    private final List<String> groups = new ArrayList<>();
     private final String dueDate;
 
     /**
@@ -28,11 +34,13 @@ public class JsonAdaptedAssignment {
     @JsonCreator
     public JsonAdaptedAssignment(@JsonProperty("assignmentId") String assignmentId,
                              @JsonProperty("label") String label,
-                             @JsonProperty("group") String group,
+                             @JsonProperty("group") List<String> groups,
                              @JsonProperty("dueDate") String dueDate) {
         this.assignmentId = assignmentId;
         this.label = label;
-        this.group = group;
+        if (groups != null) {
+            this.groups.addAll(groups);
+        }
         this.dueDate = dueDate;
     }
 
@@ -42,7 +50,9 @@ public class JsonAdaptedAssignment {
     public JsonAdaptedAssignment(Assignment source) {
         assignmentId = source.getAssignmentId().getValue();
         label = source.getLabel().label;
-        group = source.getGroup().getGroupName().toString();
+        groups.addAll(source.getGroups().stream()
+                .map(g -> g.getGroupName().toString())
+                .collect(Collectors.toList()));
         dueDate = source.getDueDate().toStorageString();
     }
 
@@ -76,16 +86,20 @@ public class JsonAdaptedAssignment {
         }
         final DueDate modelDueDate = new DueDate(dueDate);
 
-        if (group == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Group.class.getSimpleName()));
+        if (groups.isEmpty()) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "groups"));
         }
 
-        if (!Group.isValidGroup(group)) {
-            throw new IllegalValueException(Group.MESSAGE_CONSTRAINTS);
+        final Set<Group> modelGroups = new HashSet<>();
+
+        for (String groupName : groups) {
+            if (groupName == null || !Group.isValidGroup(groupName)) {
+                throw new IllegalValueException(Group.MESSAGE_CONSTRAINTS);
+            }
+
+            modelGroups.add(new Group(groupName));
         }
 
-        final Group modelGroup = new Group(group);
-
-        return new Assignment(modelAssignmentId, modelLabel, modelGroup, modelDueDate);
+        return new Assignment(modelAssignmentId, modelLabel, modelGroups, modelDueDate);
     }
 }

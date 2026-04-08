@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.assignment.AssignmentId;
+import seedu.address.model.group.AssignmentList;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.GroupName;
 import seedu.address.model.group.StudentList;
@@ -20,15 +22,18 @@ public class JsonAdaptedGroup {
 
     private final String name;
     private final ArrayList<String> students;
+    private final ArrayList<String> assignments;
 
     /**
      * Constructs a {@code JsonAdaptedGroup} with the given group details.
      */
     @JsonCreator
     public JsonAdaptedGroup(@JsonProperty("name") String name,
-                            @JsonProperty("students") ArrayList<String> students) {
+                            @JsonProperty("students") ArrayList<String> students,
+                            @JsonProperty("assignments") ArrayList<String> assignments) {
         this.name = name;
         this.students = students;
+        this.assignments = assignments;
     }
 
     /**
@@ -37,9 +42,14 @@ public class JsonAdaptedGroup {
     public JsonAdaptedGroup(Group source) {
         name = source.getGroupName().name;
         students = new ArrayList<>();
+        assignments = new ArrayList<>();
 
         for (StudentId id : source.getStudentIds().list) {
             students.add(id.getValue());
+        }
+
+        for (AssignmentId id : source.getAssignmentIds().assignments) {
+            assignments.add(id.getValue());
         }
     }
 
@@ -68,6 +78,19 @@ public class JsonAdaptedGroup {
 
         final StudentList modelStudentList = new StudentList(studentIds);
 
-        return new Group(modelName, modelStudentList);
+        if (assignments == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    GroupName.class.getSimpleName()));
+        }
+
+        final ArrayList<AssignmentId> assignmentIds = new ArrayList<>();
+
+        for (String id : assignments) {
+            assignmentIds.add(new AssignmentId(id));
+        }
+
+        final AssignmentList modelAssignmentList = new AssignmentList(assignmentIds);
+
+        return new Group(modelName, modelStudentList, modelAssignmentList);
     }
 }
