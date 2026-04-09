@@ -95,7 +95,7 @@ find /students John
 help
 ```
 
-> [!TIP]
+> **[!TIP]**
 > If you ever feel lost after filtering results, use `list` to return to the full student list.
 
 ---
@@ -215,7 +215,7 @@ Examples:
 * `add /students {John Doe; 98765432; johnd@example.com; Sec3A}`
 * `add /students {Jane Tan; 91234567; janetan@email.com; Sec3A, Math}`
 
-> [!TIP]
+> **[!TIP]**
 > Use consistent group names across students and assignments. For example, avoid mixing `Sec3A`, `sec3a`, and `SEC3A`.
 
 **Expected output:** The student appears in the list and a confirmation message is shown.
@@ -258,7 +258,7 @@ Shows all students currently in LeTutor.
 
 Format: `list`
 
-> [!TIP]
+> **[!TIP]**
 > Run `list` after using a find or group filter if you want to return to the full student list.
 
 **Expected output:** The student list resets to show all students.
@@ -318,7 +318,7 @@ Example milestone output:
 * `A2 | COMPLETED | due=2026-04-03 | completedAt=2026-03-30T1200H`
 * `A3 | OVERDUE | due=2026-03-20 | completedAt=-`
 
-> [!TIP]
+> **[!TIP]**
 > This command is useful when preparing for a lesson and you want to check a student's outstanding work quickly.
 
 **Expected output:** The student's milestone progress is shown.
@@ -397,7 +397,7 @@ Examples:
 * `find /students Johnny`
 * `find /students alex david`
 
-> [!TIP]
+> **[!TIP]**
 > Use this command before editing or deleting a student if you need to narrow down the list first.
 
 **Expected output:** Only matching students remain visible in the student list.
@@ -448,7 +448,7 @@ Examples:
 * `edit /students S2 {John Doe; 98765432; johnd@mail.com; Sec3B}`
 * `edit /students S2 {John; ; ;}`
 
-> [!TIP]
+> **[!TIP]**
 > Use empty fields carefully. Keep the semicolons in place so LeTutor can tell which field you are skipping.
 
 **Expected output:** The student's details are updated and a confirmation message is shown.
