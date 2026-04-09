@@ -1,5 +1,9 @@
 package seedu.address.testutil;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import seedu.address.logic.commands.EditAssignmentCommand.EditAssignmentDescriptor;
 import seedu.address.model.assignment.Assignment;
 import seedu.address.model.assignment.DueDate;
@@ -27,7 +31,7 @@ public class EditAssignmentDescriptorBuilder {
     public EditAssignmentDescriptorBuilder(Assignment assignment) {
         descriptor = new EditAssignmentDescriptor();
         descriptor.setLabel(assignment.getLabel());
-        descriptor.setGroup(assignment.getGroup());
+        descriptor.setGroups(assignment.getGroups());
         descriptor.setDueDate(assignment.getDueDate());
     }
 
@@ -42,8 +46,9 @@ public class EditAssignmentDescriptorBuilder {
     /**
      * Sets the {@code Group} of the {@code EditAssignmentDescriptor} that we are building.
      */
-    public EditAssignmentDescriptorBuilder withGroup(String group) {
-        descriptor.setGroup(new Group(group));
+    public EditAssignmentDescriptorBuilder withGroup(String ... groups) {
+        Set<Group> groupSet = Stream.of(groups).map(Group::new).collect(Collectors.toSet());
+        descriptor.setGroups(groupSet);
         return this;
     }
 

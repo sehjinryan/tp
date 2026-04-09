@@ -70,7 +70,6 @@ public class AssignmentBookTest {
     public void hasAssignment_assignmentWithSameIdInBook_returnsTrue() {
         assignmentBook.addAssignment(A_TEST);
         Assignment editedAssignment = new AssignmentBuilder(A_TEST)
-                .withLabel("Another Label")
                 .withDueDate("2026-12-12")
                 .build();
 

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DUEDATE_B_TEST;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_GROUP_B_TEST;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_LABEL_B_TEST;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalAssignments.A_TEST;
@@ -42,7 +43,7 @@ public class UniqueAssignmentListTest {
     public void contains_assignmentWithSameIdentityFieldsInList_returnsTrue() {
         uniqueAssignmentList.add(A_TEST);
         Assignment editedAssignment = new AssignmentBuilder(A_TEST)
-                .withLabel(VALID_LABEL_B_TEST)
+                .withGroups(VALID_GROUP_B_TEST)
                 .withDueDate(VALID_DUEDATE_B_TEST)
                 .build();
         assertTrue(uniqueAssignmentList.contains(editedAssignment));

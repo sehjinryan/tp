@@ -5,7 +5,9 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.group.exceptions.AlreadyInGroupException;
+import seedu.address.model.group.exceptions.NotInGroupException;
 import seedu.address.model.person.StudentId;
 
 /**
@@ -61,12 +63,13 @@ public class GroupManager {
      * Removes the group with the given name, if it exists.
      * This method should be an internal method, not to be called by user,
      * should only be called by other methods.
+     *
      * @param group The name of the group to remove.
      */
     public void removeGroup(Group group) {
         for (Group g : groups) {
             if (g.getGroupName().equals(group.getGroupName())
-                && g.isStudentListEmpty()) {
+                    && g.isAssignmentListEmpty() && g.isStudentListEmpty()) {
                 groups.remove(g);
                 return;
             }
@@ -75,7 +78,8 @@ public class GroupManager {
 
     /**
      * Adds studentId to group, ignores if student already in group
-     * @param g group to add studentId
+     *
+     * @param g  group to add studentId
      * @param id target studentId
      */
     public void addStudentToGroup(Group g, StudentId id) {
@@ -92,7 +96,8 @@ public class GroupManager {
 
     /**
      * remove studentId to group
-     * @param g group to add studentId
+     *
+     * @param g  group to add studentId
      * @param id target studentId
      */
     public void removeStudentFromGroup(Group g, StudentId id) {
@@ -101,7 +106,43 @@ public class GroupManager {
                 if (g.getGroupName().equals(group.getGroupName())) {
                     group.removeStudent(id);
                 }
+            } catch (NotInGroupException e) {
+                //do nothing
+            }
+        }
+    }
+
+    /**
+     * Adds assignmentId to group, ignores if assignment already in group
+     *
+     * @param g  group to add AssignmentId
+     * @param id target AssignmentId
+     */
+    public void addAssignmentToGroup(Group g, AssignmentId id) {
+        for (Group group : groups) {
+            try {
+                if (g.getGroupName().equals(group.getGroupName())) {
+                    group.addAssignment(id);
+                }
             } catch (AlreadyInGroupException e) {
+                // do nothing
+            }
+        }
+    }
+
+    /**
+     * remove AssignmentId from group
+     *
+     * @param g  group to add assignmentId
+     * @param id target assignmentId
+     */
+    public void removeAssignmentFromGroup(Group g, AssignmentId id) {
+        for (Group group : groups) {
+            try {
+                if (g.getGroupName().equals(group.getGroupName())) {
+                    group.removeAssignment(id);
+                }
+            } catch (NotInGroupException e) {
                 //do nothing
             }
         }

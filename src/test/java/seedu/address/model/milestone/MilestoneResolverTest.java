@@ -92,7 +92,7 @@ public class MilestoneResolverTest {
         return new AssignmentBuilder()
                 .withAssignmentId(assignmentId)
                 .withLabel(label)
-                .withGroup(group)
+                .withGroups(group)
                 .withDueDate(dueDate)
                 .build();
     }

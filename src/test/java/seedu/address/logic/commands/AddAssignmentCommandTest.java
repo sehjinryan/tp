@@ -62,7 +62,7 @@ public class AddAssignmentCommandTest {
     @Test
     public void execute_duplicateAssignment_throwsCommandException() {
         Assignment existing = assignment("A5", "A-JUnit", "Sec3A", "2026-02-20");
-        Assignment toAddDifferentIdSameFields = assignment("A0", "A-JUnit", "Sec3A", "2026-02-20");
+        Assignment toAddDifferentIdSameFields = assignment("A0", "A-JUnit", "Sec4A", "2026-02-20");
 
         AddAssignmentCommand command = new AddAssignmentCommand(toAddDifferentIdSameFields);
         ModelStub modelStub = new ModelStubWithExistingAssignments(existing);
@@ -97,7 +97,7 @@ public class AddAssignmentCommandTest {
         return new AssignmentBuilder()
                 .withAssignmentId(id)
                 .withLabel(label)
-                .withGroup(group)
+                .withGroups(group)
                 .withDueDate(dueDate)
                 .build();
     }
@@ -286,6 +286,16 @@ public class AddAssignmentCommandTest {
         public void removeGroup(Group group) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void addAssignmentToGroup(Group group, AssignmentId id) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeAssignmentFromGroup(Group group, AssignmentId id) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -312,6 +322,16 @@ public class AddAssignmentCommandTest {
         @Override
         public AssignmentId getNextAssignmentId() {
             return new AssignmentId("A999");
+        }
+
+        @Override
+        public void addGroup(Group group) {
+            // no-op for this test stub
+        }
+
+        @Override
+        public void addAssignmentToGroup(Group group, AssignmentId id) {
+            // no-op for this test stub
         }
     }
 
@@ -346,6 +366,16 @@ public class AddAssignmentCommandTest {
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
+        }
+
+        @Override
+        public void addGroup(Group group) {
+            // no-op for this test stub
+        }
+
+        @Override
+        public void addAssignmentToGroup(Group group, AssignmentId id) {
+            // no-op for this test stub
         }
     }
 }

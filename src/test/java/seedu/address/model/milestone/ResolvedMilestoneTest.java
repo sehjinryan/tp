@@ -3,6 +3,8 @@ package seedu.address.model.milestone;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.assignment.Assignment;
@@ -18,7 +20,7 @@ public class ResolvedMilestoneTest {
     private final Assignment assignment = new Assignment(
             new AssignmentId("A1"),
             new Label("Quiz 1"),
-            new Group("G1"),
+            Set.of(new Group("G1")),
             new DueDate("2026-04-01"));
     private final MilestoneRecord rawRecord = new MilestoneRecord(
             MilestoneStatus.COMPLETED,
@@ -57,7 +59,7 @@ public class ResolvedMilestoneTest {
                 new Assignment(
                         new AssignmentId("A1"),
                         new Label("Quiz 1"),
-                        new Group("G1"),
+                        Set.of(new Group("G1")),
                         new DueDate("2026-04-01")),
                 new MilestoneRecord(
                         MilestoneStatus.COMPLETED,

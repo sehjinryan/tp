@@ -4,6 +4,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.ParserUtil.parseTuple3;
 
 import java.util.List;
+import java.util.Set;
 
 import seedu.address.logic.commands.AddAssignmentCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -46,11 +47,13 @@ public class AddAssignmentCommandParser implements Parser<AddAssignmentCommand> 
         List<String> parts = parseTuple3(remainder, AddAssignmentCommand.MESSAGE_USAGE);
 
         Label label = ParserUtil.parseLabel(parts.get(0));
-        Group group = ParserUtil.parseGroup(parts.get(1));
+        String groupsRaw = parts.get(1).trim();
+        String[] groupParts = groupsRaw.split("\\s*,\\s*");
+        Set<Group> groups = ParserUtil.parseGroups(groupParts);
         DueDate dueDate = ParserUtil.parseDueDate(parts.get(2));
 
         // placeholder ID, real ID assigned in AddAssignmentCommand.execute()
-        Assignment assignment = new Assignment(new AssignmentId("A0"), label, group, dueDate);
+        Assignment assignment = new Assignment(new AssignmentId("A0"), label, groups, dueDate);
         return new AddAssignmentCommand(assignment);
     }
 }

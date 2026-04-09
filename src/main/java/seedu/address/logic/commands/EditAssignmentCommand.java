@@ -3,7 +3,10 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ASSIGNMENTS;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -45,7 +48,7 @@ public class EditAssignmentCommand extends Command {
         requireNonNull(assignmentId);
         requireNonNull(editAssignmentDescriptor);
         this.assignmentId = assignmentId;
-        this.editAssignmentDescriptor = editAssignmentDescriptor;
+        this.editAssignmentDescriptor = new EditAssignmentDescriptor(editAssignmentDescriptor);
     }
 
     /**
@@ -69,20 +72,22 @@ public class EditAssignmentCommand extends Command {
         Assignment assignmentToEdit = maybe.get();
         Assignment editedAssignment = createEditedAssignment(assignmentToEdit, editAssignmentDescriptor);
 
-        // Excludes the current assignment being edited from the duplicate check
-        boolean duplicate = model.getAssignmentList().stream()
-                .filter(a -> !a.getAssignmentId().equals(assignmentToEdit.getAssignmentId()))
-                .anyMatch(a ->
-                        a.getLabel().equals(editedAssignment.getLabel())
-                                && a.getGroup().equals(editedAssignment.getGroup())
-                                && a.getDueDate().equals(editedAssignment.getDueDate())
-        );
-
-        if (duplicate) {
+        if (!assignmentToEdit.isSameAssignment(editedAssignment) && model.hasAssignment(editedAssignment)) {
             throw new CommandException(MESSAGE_DUPLICATE_ASSIGNMENT);
         }
 
         model.setAssignment(assignmentToEdit, editedAssignment);
+
+        for (Group g : assignmentToEdit.getGroups()) {
+            model.removeAssignmentFromGroup(g, assignmentId);
+            model.removeGroup(g); // remove the group if it has no more assignments or students
+        }
+
+        for (Group g : editedAssignment.getGroups()) {
+            model.addGroup(g);
+            model.addAssignmentToGroup(g, assignmentId);
+        }
+
         model.updateFilteredAssignmentList(PREDICATE_SHOW_ALL_ASSIGNMENTS);
         return new CommandResult(String.format(MESSAGE_EDIT_ASSIGNMENT_SUCCESS, Messages.formatA(editedAssignment)));
     }
@@ -96,13 +101,13 @@ public class EditAssignmentCommand extends Command {
         assert assignmentToEdit != null;
 
         Label updatedLabel = editAssignmentDescriptor.getLabel().orElse(assignmentToEdit.getLabel());
-        Group updatedGroup = editAssignmentDescriptor.getGroup().orElse(assignmentToEdit.getGroup());
+        Set<Group> updatedGroups = editAssignmentDescriptor.getGroups().orElse(assignmentToEdit.getGroups());
         DueDate updatedDueDate = editAssignmentDescriptor.getDueDate().orElse(assignmentToEdit.getDueDate());
 
         return new Assignment(
                 assignmentToEdit.getAssignmentId(),
                 updatedLabel,
-                updatedGroup,
+                updatedGroups,
                 updatedDueDate
         );
     }
@@ -122,13 +127,21 @@ public class EditAssignmentCommand extends Command {
                 && editAssignmentDescriptor.equals(e.editAssignmentDescriptor);
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("assignmentId", assignmentId)
+                .add("editAssignmentDescriptor", editAssignmentDescriptor)
+                .toString();
+    }
+
     /**
      * Stores the details to edit the assignment with. Each non-empty field value will replace the
      * corresponding field value of the assignment.
      */
     public static class EditAssignmentDescriptor {
         private Label label;
-        private Group group;
+        private Set<Group> groups;
         private DueDate dueDate;
 
         public EditAssignmentDescriptor() {}
@@ -139,7 +152,7 @@ public class EditAssignmentCommand extends Command {
          */
         public EditAssignmentDescriptor(EditAssignmentDescriptor toCopy) {
             setLabel(toCopy.label);
-            setGroup(toCopy.group);
+            setGroups(toCopy.groups);
             setDueDate(toCopy.dueDate);
         }
 
@@ -147,7 +160,7 @@ public class EditAssignmentCommand extends Command {
          * Returns true if at least one field is edited
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(label, group, dueDate);
+            return CollectionUtil.isAnyNonNull(label, groups, dueDate);
         }
 
         public void setLabel(Label label) {
@@ -158,12 +171,12 @@ public class EditAssignmentCommand extends Command {
             return Optional.ofNullable(label);
         }
 
-        public void setGroup(Group group) {
-            this.group = group;
+        public void setGroups(Set<Group> groups) {
+            this.groups = (groups != null) ? new HashSet<>(groups) : null;
         }
 
-        public Optional<Group> getGroup() {
-            return Optional.ofNullable(group);
+        public Optional<Set<Group>> getGroups() {
+            return (groups != null) ? Optional.of(Collections.unmodifiableSet(groups)) : Optional.empty();
         }
 
         public void setDueDate(DueDate dueDate) {
@@ -186,7 +199,7 @@ public class EditAssignmentCommand extends Command {
 
             EditAssignmentDescriptor e = (EditAssignmentDescriptor) other;
             return getLabel().equals(e.getLabel())
-                    && getGroup().equals(e.getGroup())
+                    && getGroups().equals(e.getGroups())
                     && getDueDate().equals(e.getDueDate());
         }
 
@@ -194,11 +207,9 @@ public class EditAssignmentCommand extends Command {
         public String toString() {
             return new ToStringBuilder(this)
                     .add("label", label)
-                    .add("group", group)
+                    .add("group", groups)
                     .add("dueDate", dueDate)
                     .toString();
         }
     }
 }
-
-

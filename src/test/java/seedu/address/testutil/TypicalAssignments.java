@@ -22,43 +22,43 @@ public class TypicalAssignments {
     public static final Assignment A_JUNIT = new AssignmentBuilder()
             .withAssignmentId("A1")
             .withLabel("A-JUnit")
-            .withGroup("Sec3A")
+            .withGroups("Sec3A")
             .withDueDate("2026-02-20")
             .build();
 
     public static final Assignment A_STREAMS = new AssignmentBuilder()
             .withAssignmentId("A2")
             .withLabel("A-Streams")
-            .withGroup("Sec3A")
+            .withGroups("Sec3A")
             .withDueDate("2026-02-22")
             .build();
 
     public static final Assignment A_REFACTOR = new AssignmentBuilder()
             .withAssignmentId("A3")
             .withLabel("A-Refactor")
-            .withGroup("Sec3B")
+            .withGroups("Sec3B")
             .withDueDate("2026-03-01")
             .build();
 
     public static final Assignment A_OOP = new AssignmentBuilder()
             .withAssignmentId("A4")
             .withLabel("A-OOP")
-            .withGroup("Sec3B")
+            .withGroups("Sec3B")
             .withDueDate("2026-03-08")
             .build();
 
     public static final Assignment A_UML = new AssignmentBuilder()
             .withAssignmentId("A5")
             .withLabel("A-UML")
-            .withGroup("Sec3C")
+            .withGroups("Sec3C")
             .withDueDate("2026-03-15")
             .build();
 
     public static final Assignment A_TEST = new AssignmentBuilder().withAssignmentId("A6").withLabel(VALID_LABEL_A_TEST)
-            .withGroup(VALID_GROUP_A_TEST).withDueDate(VALID_DUEDATE_A_TEST).build();
+            .withGroups(VALID_GROUP_A_TEST).withDueDate(VALID_DUEDATE_A_TEST).build();
 
     public static final Assignment B_TEST = new AssignmentBuilder().withAssignmentId("A7").withLabel(VALID_LABEL_B_TEST)
-            .withGroup(VALID_GROUP_B_TEST).withDueDate(VALID_DUEDATE_B_TEST).build();
+            .withGroups(VALID_GROUP_B_TEST).withDueDate(VALID_DUEDATE_B_TEST).build();
 
     private TypicalAssignments() {}
 

@@ -6,6 +6,7 @@ import static seedu.address.model.assignment.Label.VALIDATION_REGEX;
 import java.util.Objects;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.assignment.AssignmentId;
 import seedu.address.model.group.exceptions.AlreadyInGroupException;
 import seedu.address.model.group.exceptions.NotInGroupException;
 import seedu.address.model.person.StudentId;
@@ -17,6 +18,7 @@ public class Group {
 
     private final GroupName name;
     private final StudentList studentIds;
+    private final AssignmentList assignmentIds;
 
     /**
      * Constructs an {@code Group} with the given value.
@@ -27,6 +29,7 @@ public class Group {
     public Group(String name) {
         this.name = new GroupName(name);
         this.studentIds = new StudentList();
+        this.assignmentIds = new AssignmentList();
     }
 
     /**
@@ -35,9 +38,10 @@ public class Group {
      * @param name The assignment identifier string.
      * @throws NullPointerException if {@code name} is null.
      */
-    public Group(GroupName name, StudentList students) {
+    public Group(GroupName name, StudentList students, AssignmentList assignments) {
         this.name = name;
         this.studentIds = students;
+        this.assignmentIds = assignments;
     }
 
     /**
@@ -102,6 +106,39 @@ public class Group {
     }
 
     /**
+     * Returns the AssignmentIds that correspond to the Assignments in the Group.
+     *
+     * @return The ArrayList of Assignments as an AssignmentIds object.
+     */
+    public AssignmentList getAssignmentIds() {
+        return this.assignmentIds;
+    }
+
+    /**
+     * Adds an assignment id to this group's list of Students.
+     *
+     * @param id The assignment identifier to add.
+     * @throws NullPointerException if {@code id} is null.
+     * @throws AlreadyInGroupException if {@code id} already exists in this group.
+     */
+    public void addAssignment(AssignmentId id) throws AlreadyInGroupException {
+        requireNonNull(id);
+        assignmentIds.addAssignment(id);
+    }
+
+    /**
+     * Removes an assignment id from this group's list of Assignments.
+     *
+     * @param id The assignment identifier to remove.
+     * @throws NullPointerException if {@code id} is null.
+     * @throws NotInGroupException if {@code id} does not exist in this group.
+     */
+    public void removeAssignment(AssignmentId id) throws NotInGroupException {
+        requireNonNull(id);
+        assignmentIds.removeAssignment(id);
+    }
+
+    /**
      * Returns true if both groups have the same name.
      * This defines a weaker notion of equality between two groups.
      */
@@ -112,6 +149,15 @@ public class Group {
 
         return otherGroup != null
                 && otherGroup.name.equals(name);
+    }
+
+    /**
+     * Checks if the AssignmentList ArrayList in Group is empty
+     *
+     * @return True if AssignmentList is empty and False if otherwise
+     */
+    public boolean isAssignmentListEmpty() {
+        return assignmentIds.getAssignmentList().isEmpty();
     }
 
     @Override
@@ -139,6 +185,7 @@ public class Group {
         return new ToStringBuilder(this)
                 .add("Group Name", name)
                 .add("Student Ids", studentIds)
+                .add("Assignment Ids", assignmentIds)
                 .toString();
     }
 }

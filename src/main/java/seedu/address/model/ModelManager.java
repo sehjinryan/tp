@@ -245,7 +245,7 @@ public class ModelManager implements Model {
         List<Assignment> matchingAssignments = new ArrayList<>();
 
         for (Assignment assignment : getAssignmentList()) {
-            if (student.getGroups().contains(assignment.getGroup())) {
+            if (student.getGroups().stream().anyMatch(assignment.getGroups()::contains)) {
                 matchingAssignments.add(assignment);
             }
         }
@@ -397,5 +397,15 @@ public class ModelManager implements Model {
     public void removeGroup(Group g) {
         requireNonNull(g);
         addressBook.removeGroup(g);
+    }
+
+    @Override
+    public void addAssignmentToGroup(Group g, AssignmentId id) {
+        addressBook.addAssignmentToGroup(g, id);
+    }
+
+    @Override
+    public void removeAssignmentFromGroup(Group g, AssignmentId id) {
+        addressBook.removeAssignmentFromGroup(g, id);
     }
 }

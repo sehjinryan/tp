@@ -61,7 +61,9 @@ public class Messages {
                 .append("; Label: ")
                 .append(assignment.getLabel())
                 .append("; Group: ")
-                .append(assignment.getGroup().getGroupName())
+                .append(assignment.getGroups().stream()
+                        .map(g -> g.getGroupName().name)
+                        .collect(Collectors.joining(", ")))
                 .append("; Due Date: ")
                 .append(assignment.getDueDate());
 

@@ -29,8 +29,7 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
      */
     public boolean contains(Assignment toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream()
-                .anyMatch(a -> a.getAssignmentId().equals(toCheck.getAssignmentId()));
+        return internalList.stream().anyMatch(toCheck::isSameAssignment);
     }
 
     /**
@@ -70,10 +69,7 @@ public class UniqueAssignmentList implements Iterable<Assignment> {
             throw new AssignmentNotFoundException();
         }
 
-        boolean isDuplicateId = internalList.stream()
-                .anyMatch(a -> a != target && a.getAssignmentId().equals(editedAssignment.getAssignmentId()));
-
-        if (isDuplicateId) {
+        if (!target.isSameAssignment(editedAssignment) && contains(editedAssignment)) {
             throw new DuplicateAssignmentException();
         }
 

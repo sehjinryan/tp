@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +72,7 @@ public class StudentMilestoneViewTest {
         Assignment assignment = new Assignment(
                 new AssignmentId(assignmentId),
                 new Label("Quiz " + assignmentId),
-                new Group("G1"),
+                Set.of(new Group("G1")),
                 new DueDate("2026-04-01")
         );
 

@@ -55,9 +55,10 @@ public class EditAssignmentCommandParser implements Parser<EditAssignmentCommand
             descriptor.setLabel(ParserUtil.parseLabel(labelRaw));
         }
 
-        String groupRaw = parts.get(1).trim();
-        if (!groupRaw.isEmpty()) {
-            descriptor.setGroup(ParserUtil.parseGroup(groupRaw));
+        String groupsRaw = parts.get(1).trim();
+        if (!groupsRaw.isEmpty()) {
+            String[] groupParts = groupsRaw.split("\\s*,\\s*");
+            descriptor.setGroups(ParserUtil.parseGroups(groupParts));
         }
 
         String dueDateRaw = parts.get(2).trim();
