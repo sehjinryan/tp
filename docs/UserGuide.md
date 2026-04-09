@@ -346,14 +346,6 @@ Certain edits can also cause LeTutor to behave in unexpected ways, such as when 
 
 * * *
 
-## Known issues
-
-1. **When using multiple screens**, if you move the application to a secondary screen and later switch to using only the primary screen, the GUI may open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-
-2. If you minimize the Help Window and then run the `help` command again (or use the **Help** menu, or the keyboard shortcut <kbd>F1</kbd>), the original Help Window will remain minimized and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
-* * *
-
 ## Command summary
 
 **Add student**  
