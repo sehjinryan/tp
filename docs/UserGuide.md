@@ -23,9 +23,8 @@ Keeping track of multiple students, class groups, assignment deadlines, and comp
 ## Table of Contents
 
 1. [Quick Start](#quick-start)
-2. [Understanding the Interface](#understanding-the-interface)
-3. [Key Concepts](#key-concepts)
-4. [Features](#features)
+2. [Key Concepts](#key-concepts)
+3. [Features](#features)
     - [Notes about the command format](#notes-about-the-command-format)
     - [Viewing help — `help`](#viewing-help--help)
     - [Adding a student — `add /students`](#adding-a-student--add-students)
@@ -46,9 +45,9 @@ Keeping track of multiple students, class groups, assignment deadlines, and comp
     - [Exiting — `exit`](#exiting-the-program--exit)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
-5. [FAQ](#faq)
-6. [Known Issues](#known-issues)
-7. [Command Summary](#command-summary)
+4. [FAQ](#faq)
+5. [Known Issues](#known-issues)
+6. [Command Summary](#command-summary)
 
 ---
 
@@ -98,23 +97,6 @@ help
 
 > [!TIP]
 > If you ever feel lost after filtering results, use `list` to return to the full student list.
-
----
-
-## Understanding the Interface
-
-![Main interface overview](../src/main/resources/images/main-interface.png)
-
-The LeTutor window has three main areas:
-
-| Area               | Purpose                                                                |
-| ------------------ | ---------------------------------------------------------------------- |
-| **Command Box**    | Where you type commands                                                |
-| **Result Display** | Shows success messages or error messages after each command            |
-| **List Panels**    | Shows students and assignments currently visible based on your command |
-
-> [!NOTE]
-> Some commands change what is shown on screen without deleting any data. For example, `find /students` and `find /groups` only filter what you see.
 
 ---
 
@@ -202,7 +184,7 @@ Format: `help`
 
 **Expected output:** A help window appears or help information is shown.
 
-![Help command result](../src/main/resources/images/help-message.png)
+![Help command result](images/help-message.png)
 
 ---
 
@@ -238,7 +220,7 @@ Examples:
 
 **Expected output:** The student appears in the list and a confirmation message is shown.
 
-![Add student result](../src/main/resources/images/add-student.png)
+![Add student result](images/add-student.png)
 
 ---
 
@@ -266,7 +248,7 @@ Examples:
 
 **Expected output:** The assignment appears in the assignment list and a confirmation message is shown.
 
-![Add assignment result](../src/main/resources/images/add-assignment.png)
+![Add assignment result](images/add-assignment.png)
 
 ---
 
@@ -308,7 +290,7 @@ Example:
 
 **Expected output:** The selected student's details are shown in the app.
 
-![Get student result](../src/main/resources/images/get-student.png)
+![Get student result](images/get-student.png)
 
 ---
 
@@ -341,7 +323,7 @@ Example milestone output:
 
 **Expected output:** The student's milestone progress is shown.
 
-![Milestone view result](../src/main/resources/images/milestone-view.png)
+![Milestone view result](images/milestone-view.png)
 
 ---
 
@@ -374,7 +356,7 @@ Examples:
 
 **Expected output:** The milestone status is updated and a confirmation message is shown.
 
-![Set milestone result](../src/main/resources/images/set-milestone.png)
+![Set milestone result](images/set-milestone.png)
 
 ---
 
@@ -420,7 +402,7 @@ Examples:
 
 **Expected output:** Only matching students remain visible in the student list.
 
-![Find students result](../src/main/resources/images/find-students.png)
+![Find students result](images/find-students.png)
 
 ---
 
@@ -445,7 +427,7 @@ Example:
 
 * `X persons listed and Y assignments listed for Group "T08"`
 
-![Find groups result](../src/main/resources/images/find-groups.png)
+![Find groups result](images/find-groups.png)
 
 ---
 
@@ -471,7 +453,7 @@ Examples:
 
 **Expected output:** The student's details are updated and a confirmation message is shown.
 
-![Edit student result](../src/main/resources/images/edit-student.png)
+![Edit student result](images/edit-student.png)
 
 ---
 
@@ -495,7 +477,7 @@ Examples:
 
 **Expected output:** The assignment is updated and a confirmation message is shown.
 
-![Edit assignment result](../src/main/resources/images/edit-assignment.png)
+![Edit assignment result](images/edit-assignment.png)
 
 ---
 
@@ -514,7 +496,7 @@ Example:
 
 **Expected output:** The student is removed and a confirmation message is shown.
 
-![Delete student result](../src/main/resources/images/delete-student.png)
+![Delete student result](images/delete-student.png)
 
 ---
 
@@ -533,7 +515,7 @@ Example:
 
 **Expected output:** The assignment is removed and a confirmation message is shown.
 
-![Delete assignment result](../src/main/resources/images/delete-assignment.png)
+![Delete assignment result](images/delete-assignment.png)
 
 ---
 
