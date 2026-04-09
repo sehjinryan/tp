@@ -48,20 +48,28 @@
         </StackPane>
 
         <SplitPane VBox.vgrow="ALWAYS" dividerPositions="0.5">
-          <VBox>
+          <VBox maxWidth="Infinity" maxHeight="Infinity">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
             <Label text="Students" styleClass="section-title" style="-fx-text-fill: #FFFFFF" />
-            <StackPane fx:id="personListPanelPlaceholder" styleClass="pane-with-border"/>
+            <StackPane fx:id="personListPanelPlaceholder"
+                       styleClass="pane-with-border"
+                       VBox.vgrow="ALWAYS"
+                       maxWidth="Infinity"
+                       maxHeight="Infinity"/>
           </VBox>
 
-          <VBox>
+          <VBox maxWidth="Infinity" maxHeight="Infinity">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
             <Label text="Assignments" styleClass="section-title" style="-fx-text-fill: #FFFFFF" />
-            <StackPane fx:id="assignmentListPanelPlaceholder" styleClass="pane-with-border"/>
+            <StackPane fx:id="assignmentListPanelPlaceholder"
+                       styleClass="pane-with-border"
+                       VBox.vgrow="ALWAYS"
+                       maxWidth="Infinity"
+                       maxHeight="Infinity"/>
           </VBox>
         </SplitPane>
 
