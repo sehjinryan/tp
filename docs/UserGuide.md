@@ -233,8 +233,6 @@ Examples:
 * `find /students John` returns students such as `John Doe`
 * `find /students alex david` returns students such as `Alex Yeoh`, `David Li`
 
-![result for 'find alex david'](images/findAlexDavidResult.png)
-
 ---
 
 ### Locating students and assignments by group: `find /groups`
