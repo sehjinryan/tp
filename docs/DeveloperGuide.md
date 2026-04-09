@@ -744,6 +744,61 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Finding students and assignments by group
+
+1. Filtering by an existing group
+
+    1. Prerequisites: Reset the app with `clear`, then enter the following commands:
+        * `add /students {Alice Tan; 91234567; alice@example.com; Science}`
+        * `add /students {Bob Lim; 92345678; bob@example.com; Math}`
+        * `add /students {Cara Ong; 93456789; cara@example.com; Science}`
+        * `add /students {Dana Lee; 94567890; dana@example.com; English}`
+        * `add /assignments {Quiz 1; Science; 2026-05-01}`
+        * `add /assignments {Worksheet 1; Math; 2026-05-02}`
+
+    2. Test case: `find /groups Science`
+       Expected: Only `Alice Tan` and `Cara Ong` remain in the student list. Only `Quiz 1` remains in the assignment list. The status message shows `2 persons listed and 1 assignments listed for Group "Science"`.
+
+    3. Test case: `find /groups Math`
+       Expected: Only `Bob Lim` remains in the student list. Only `Worksheet 1` remains in the assignment list. The status message shows `1 persons listed and 1 assignments listed for Group "Math"`.
+
+    4. Test case: `find /groups English`
+       Expected: Only `Dana Lee` remains in the student list. The assignment list becomes empty. The status message shows `1 persons listed and 0 assignments listed for Group "English"`.
+
+2. Filtering by a non-existent group
+
+    1. Prerequisites: Use the same data set as above.
+
+    2. Test case: `find /groups History`
+       Expected: Both the student list and assignment list become empty. The status message shows `0 persons listed and 0 assignments listed for Group "History"`.
+
+3. Exact-match behavior
+
+    1. Prerequisites: Use the same data set as above.
+
+    2. Test case: `find /groups science`
+       Expected: Both lists become empty, because the current implementation matches the group name exactly.
+
+    3. Test case: `find /groups Sci`
+       Expected: Both lists become empty, because partial group-name matching is not supported.
+
+4. Invalid command formats
+
+    1. Prerequisites: Any non-empty data set.
+
+    2. Test case: `find`
+       Expected: No list changes. An invalid command format message is shown.
+
+    3. Test case: `find /assignments Science`
+       Expected: No list changes. An invalid command format message is shown.
+
+5. Restoring the full view after filtering
+
+    1. Prerequisites: Execute any successful `find /groups ...` command.
+
+    2. Test case: `list` followed by `get /assignments`
+       Expected: The full student list and full assignment list are shown again.
+
 ### Saving data
 
 1. Dealing with missing/corrupted data files
