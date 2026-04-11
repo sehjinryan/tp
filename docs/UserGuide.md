@@ -1,3 +1,9 @@
+---
+layout: default.md
+title: "User Guide"
+pageNav: 3
+---
+
 # LeTutor User Guide
 
 ## Who is this guide for?
@@ -182,7 +188,7 @@ Format: `help`
 
 **Expected output:** A help window appears or help information is shown.
 
-![Help command result](images/help-message.png)
+![Help command result](images/help-image.png)
 
 ---
 
