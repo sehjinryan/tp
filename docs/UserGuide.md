@@ -256,30 +256,30 @@ Examples:
 
 ---
 
-### Listing all students : `list`
+### Listing all students and assignments: `list`
 
-Shows all students currently in LeTutor.
+Shows all students and assignments currently in LeTutor.
 
 Format: `list`
 
 > Tip:
-> Run `list` after using a find or group filter if you want to return to the full student list.
+> Run `list` after using a find or group filter if you want to return to the full student list & full assignment list.
+
+**Expected output:** The student list resets to show all students, assignment list shows all assignments.
+
+---
+
+### Listing all students only: `get /students`
+
+Shows all students currently in LeTutor.
+
+Format: `get /students`
 
 **Expected output:** The student list resets to show all students.
 
 ---
 
-### Listing all assignments : `get /assignments`
-
-Shows all assignments currently in LeTutor.
-
-Format: `get /assignments`
-
-**Expected output:** The assignment list shows all assignments.
-
----
-
-### Viewing a student's details : `get /students`
+### Viewing a student's details : `get /students <studentId>`
 
 Shows the details of a specific student.
 
@@ -361,6 +361,16 @@ Examples:
 **Expected output:** The milestone status is updated and a confirmation message is shown.
 
 ![Set milestone result](images/set-milestone.png)
+
+---
+
+### Listing all assignments : `get /assignments`
+
+Shows all assignments currently in LeTutor.
+
+Format: `get /assignments`
+
+**Expected output:** The assignment list shows all assignments.
 
 ---
 
