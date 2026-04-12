@@ -519,7 +519,8 @@ Rules:
    * `COMPLETED`
 * If the status is `NOT_STARTED`, do **not** provide `COMPLETED_AT`.
 * If the status is `COMPLETED`, you **must** provide `COMPLETED_AT`.
-* The `COMPLETED_AT` field takes in a value with the format `<YYYY-MM-DD>T<HHMM>H` (with **no arrows**). Replace the `YYYY-MM-DD` and `HHMM` parameters with the actual date and time values respectively.
+* The `COMPLETED_AT` field takes in a value with the format `<YYYY-MM-DD> <HHMM>` (with **no arrows**). Replace the `YYYY-MM-DD` and `HHMM` parameters with the actual date and time values respectively with a space between.
+* A space **must** be included between the 2 parameters (date and time) mentioned. 
 * Do not include square brackets `[]` for the `COMPLETED_AT` field.
 * `OVERDUE` cannot be set manually.
 * The student and assignment must share **at least one group**.
@@ -533,7 +534,7 @@ Rules:
 Examples:
 
 * `set /students S1 /milestones A1 NOT_STARTED`
-* `set /students S1 /milestones A1 COMPLETED 2026-03-30T1200H`
+* `set /students S1 /milestones A1 COMPLETED 2026-03-30 1200`
 
 > **Note:**
 > Use `NOT_STARTED` if you want to reset a milestone to incomplete.
@@ -680,23 +681,23 @@ A: Yes. Separate group names with commas when adding or editing an assignment.
 
 ## Command Summary
 
-| Action                     | Format                                                                    | Example                                                         |
-|----------------------------|---------------------------------------------------------------------------|-----------------------------------------------------------------|
-| **Help**                   | `help`                                                                    | `help`                                                          |
-| **Add student**            | `add /students {NAME; PHONE; EMAIL; GROUPS}`                        | `add /students {John Doe; 98765432; johnd@example.com; Sec3A}`  |
+| Action                     | Format                                                                    | Example                                                        |
+|----------------------------|---------------------------------------------------------------------------|----------------------------------------------------------------|
+| **Help**                   | `help`                                                                    | `help`                                                         |
+| **Add student**            | `add /students {NAME; PHONE; EMAIL; GROUPS}`                        | `add /students {John Doe; 98765432; johnd@example.com; Sec3A}` |
 | **Edit student**           | `edit /students STUDENT_ID {NAME; PHONE; EMAIL; GROUPS}`           | `edit /students S1 {John Doe; 98765432; johnd@mail.com; Sec3B}` |
-| **Delete student**         | `delete /students STUDENT_ID`                                             | `delete /students S3`                                           |
-| **Add assignment**         | `add /assignments {LABEL; GROUPS; DUE_DATE}`                           | `add /assignments {Math; Sec3A, Sec3B; 2026-03-20}`             |
-| **Edit assignment**        | `edit /assignments ASSIGNMENT_ID {LABEL; GROUPS; DUE_DATE}`             | `edit /assignments A1 {Quiz 2; Sec3A, Sec3B; 2026-04-01}`       |
-| **Delete assignment**      | `delete /assignments ASSIGNMENT_ID`                                       | `delete /assignments A2`                                        |
-| **List all**               | `list`                                                                    | `list`                                                          |
-| **List students**          | `get /students`                                                           | `get /students`                                                 |
-| **List assignments**       | `get /assignments`                                                        | `get /assignments`                                              |
-| **Get student**            | `get /students STUDENT_ID`                                                | `get /students S3`                                              |
-| **Get assignment**         | `get /assignments ASSIGNMENT_ID`                                          | `get /assignments A2`                                           |
-| **Get student milestones** | `get /students STUDENT_ID /milestones`                                    | `get /students S1 /milestones`                                  |
-| **Set milestone**          | `set /students STUDENT_ID /milestones ASSIGNMENT_ID STATUS [COMPLETED_AT]` | `set /students S1 /milestones A1 COMPLETED 2026-03-30T1200H`    |
-| **Find students**          | `find /students <keywords>`                                               | `find /students alex david`                                     |
-| **Find groups**            | `find /groups GROUP_NAME`                                                 | `find /groups Science`                                          |
-| **Clear**                  | `clear`                                                                   | `clear`                                                         |
-| **Exit**                   | `exit`                                                                    | `exit`                                                          |
+| **Delete student**         | `delete /students STUDENT_ID`                                             | `delete /students S3`                                          |
+| **Add assignment**         | `add /assignments {LABEL; GROUPS; DUE_DATE}`                           | `add /assignments {Math; Sec3A, Sec3B; 2026-03-20}`            |
+| **Edit assignment**        | `edit /assignments ASSIGNMENT_ID {LABEL; GROUPS; DUE_DATE}`             | `edit /assignments A1 {Quiz 2; Sec3A, Sec3B; 2026-04-01}`      |
+| **Delete assignment**      | `delete /assignments ASSIGNMENT_ID`                                       | `delete /assignments A2`                                       |
+| **List all**               | `list`                                                                    | `list`                                                         |
+| **List students**          | `get /students`                                                           | `get /students`                                                |
+| **List assignments**       | `get /assignments`                                                        | `get /assignments`                                             |
+| **Get student**            | `get /students STUDENT_ID`                                                | `get /students S3`                                             |
+| **Get assignment**         | `get /assignments ASSIGNMENT_ID`                                          | `get /assignments A2`                                          |
+| **Get student milestones** | `get /students STUDENT_ID /milestones`                                    | `get /students S1 /milestones`                                 |
+| **Set milestone**          | `set /students STUDENT_ID /milestones ASSIGNMENT_ID STATUS [COMPLETED_AT]` | `set /students S1 /milestones A1 COMPLETED 2026-03-30 1200`    |
+| **Find students**          | `find /students <keywords>`                                               | `find /students alex david`                                    |
+| **Find groups**            | `find /groups GROUP_NAME`                                                 | `find /groups Science`                                         |
+| **Clear**                  | `clear`                                                                   | `clear`                                                        |
+| **Exit**                   | `exit`                                                                    | `exit`                                                         |
