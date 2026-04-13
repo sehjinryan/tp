@@ -37,10 +37,10 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Student: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
-    public static final String MESSAGE_DUPLICATE_PHONE = "Another person with the same phone number"
+    public static final String MESSAGE_DUPLICATE_PERSON = "This student already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PHONE = "Another student with the same phone number"
             + " already exists in the address book";
-    public static final String MESSAGE_DUPLICATE_EMAIL = "Another person with the same email"
+    public static final String MESSAGE_DUPLICATE_EMAIL = "Another student with the same email"
             + " already exists in the address book";
 
     private final StudentId studentId;
