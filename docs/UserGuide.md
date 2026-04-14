@@ -349,7 +349,7 @@ Example:
 
 * `delete /students S3`
 
-> **Note:** Entering a `STUDENT_ID` that does not exist will reset the student list to show all available students
+> **Note:** If the ID does not exist, LeTutor does not delete anything and shows the full student list again.
 {: .note}
 
 > **Caution:**
@@ -435,7 +435,7 @@ Example:
 
 * `delete /assignments A2`
 
-> **Note:** Entering an `ASSIGNMENT_ID` that does not exist will reset the assignment list to show all available assignments
+> **Note:** If the ID does not exist, LeTutor does not delete anything and shows the full assignment list again.
 {: .note}
 
 > **Caution:**
@@ -588,15 +588,13 @@ Format: `set /students STUDENT_ID /milestones ASSIGNMENT_ID STATUS [COMPLETED_AT
 Rules:
 * `STUDENT_ID` values look like `S1`, `S2`, `S3`, ...
 * `ASSIGNMENT_ID` values look like `A1`, `A2`, `A3`, ...
-* Only the following stored statuses are allowed:
-   * `NOT_STARTED`
-   * `COMPLETED`
+* `STATUS` accepts only `NOT_STARTED` or `COMPLETED`.
+* `OVERDUE` is a display-only status computed by LeTutor and cannot be entered manually.
 * If the status is `NOT_STARTED`, do **not** provide `COMPLETED_AT`.
 * If the status is `COMPLETED`, you **must** provide `COMPLETED_AT`.
-* The `COMPLETED_AT` field takes in a value with the format `<YYYY-MM-DD> <HHMM>` (with **no arrows**). Replace the `YYYY-MM-DD` and `HHMM` parameters with the actual date and time values respectively with a space between.
+* `COMPLETED_AT` must be followed by the format `YYYY-MM-DD HHMM`. Do not type the angle brackets.
 * A space **must** be included between the 2 parameters (date and time) mentioned.
 * Do not include square brackets `[]` for the `COMPLETED_AT` field.
-* `OVERDUE` cannot be set manually.
 * The student and assignment must share **at least one group**.
 
 > **Caution:** If you try to manually overwrite `OVERDUE` status to `NOT_STARTED`, the system will ignore the request and there will not be any messages indicating so. However, you are able to update an assignment's status to `COMPLETED` even if it was `OVERDUE`.
@@ -750,7 +748,7 @@ A: Yes. Separate group names with commas when adding or editing an assignment.
 
 2. **If the Help Window is minimized**, running `help` again will not open a new help window. Restore the minimized help window manually.
 
-3. **The application allows you to set an assignment as `COMPLETED` with a `COMPLETED_AT` date in the future.** This is technically not possible in real life (to be completing something in future), so please do not set your `COMPLETED_AT` date to be in the future.
+3. **LeTutor currently allows COMPLETED_AT values in the future. To keep records accurate, enter only dates and times that have already passed.
 ---
 
 ## Command Summary
