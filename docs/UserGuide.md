@@ -742,6 +742,42 @@ Advanced users may update the data file directly.
 
 ---
 
+## Tips for effective use
+
+Here are some tips to help you use LeTutor more smoothly and avoid common mistakes.
+
+### 1. Use consistent group names
+Try to keep group names consistent throughout the app. For example, use `Sec3A` everywhere instead of mixing `Sec3A`, `sec3a`, and `Secondary 3A`. This makes it easier to organise students and assignments correctly.
+
+### 2. Add students before setting milestones
+Milestones are tied to both students and assignments. It is usually easier to first add your students and assignments, then update milestone progress afterwards.
+
+### 3. Reuse IDs when managing records
+Each student and assignment has a unique ID, such as `S1` or `A1`. When editing, deleting, viewing details, or updating milestones, always refer to the correct ID to avoid changing the wrong record.
+
+### 4. Use groups to stay organised
+Assign students to the correct groups when adding them. For assignments, use the appropriate group or groups so that only relevant students are associated with that work.
+
+### 5. Separate multiple groups clearly
+When entering multiple groups in a command, separate them with commas. For example:
+`add /assignments {Math Quiz; Sec3A, Sec3B; 2026-05-01}`
+
+### 6. Use edit instead of deleting and re-adding
+If you only need to update a student’s details or change an assignment’s label, groups, or due date, use the `edit` command. This is usually faster and reduces the chance of losing linked data.
+
+### 7. Check milestone progress regularly
+Use `get /students <studentId> /milestones` to review a student’s progress. This is especially useful for spotting incomplete or overdue assignments early.
+
+### 8. Reset filtered views when needed
+After using commands that narrow what is shown, such as `find` or `get`, use `list` to show all students again and `get /assignments` to show all assignments again.
+
+### 9. Keep contact details accurate
+Make sure phone numbers and emails are entered correctly when adding or editing students. This helps keep your records reliable and avoids confusion later.
+
+### 10. Update records as soon as changes happen
+LeTutor works best when records are kept up to date. Updating assignment details and milestone progress promptly makes it easier to track your students accurately over time.
+
+---
 ## FAQ
 
 **Q: How do I move my data to another computer?**
